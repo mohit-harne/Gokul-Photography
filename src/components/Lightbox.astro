@@ -1,0 +1,127 @@
+---
+// src/components/Lightbox.astro
+---
+
+<div
+  id="lightbox-modal"
+  class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4 md:p-8 select-none"
+  aria-modal="true"
+  role="dialog"
+>
+  <!-- Close Button -->
+  <button
+    id="lightbox-close"
+    class="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors text-3xl font-light focus:outline-none z-10 cursor-pointer"
+    aria-label="Close Lightbox"
+  >
+    &times;
+  </button>
+
+  <!-- Left Arrow -->
+  <button
+    id="lightbox-prev"
+    class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors p-2 text-3xl focus:outline-none z-10 cursor-pointer"
+    aria-label="Previous Image"
+  >
+    &#10094;
+  </button>
+
+  <!-- Image and Caption Container -->
+  <div class="max-w-5xl max-h-[85vh] flex flex-col items-center justify-center relative">
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-h-[75vh] w-auto object-contain rounded-sm shadow-2xl transition-opacity duration-200"
+    />
+    <p id="lightbox-caption" class="text-neutral-300 text-xs tracking-[0.2em] uppercase mt-4 text-center font-light"></p>
+  </div>
+
+  <!-- Right Arrow -->
+  <button
+    id="lightbox-next"
+    class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors p-2 text-3xl focus:outline-none z-10 cursor-pointer"
+    aria-label="Next Image"
+  >
+    &#10095;
+  </button>
+</div>
+
+<script>
+  let currentIndex = 0;
+  let galleryItems: { src: string; caption: string }[] = [];
+
+  const modal = document.getElementById("lightbox-modal") as HTMLDivElement;
+  const img = document.getElementById("lightbox-img") as HTMLImageElement;
+  const caption = document.getElementById("lightbox-caption") as HTMLParagraphElement;
+  const closeBtn = document.getElementById("lightbox-close");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+
+  function openLightbox(index: number) {
+    currentIndex = index;
+    updateLightbox();
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  function closeLightbox() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  function updateLightbox() {
+    if (!galleryItems[currentIndex]) return;
+    img.style.opacity = "0.2";
+    setTimeout(() => {
+      img.src = galleryItems[currentIndex].src;
+      img.alt = galleryItems[currentIndex].caption;
+      caption.textContent = galleryItems[currentIndex].caption;
+      img.style.opacity = "1";
+    }, 150);
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    updateLightbox();
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    updateLightbox();
+  }
+
+  // Bind Triggers
+  function setupTriggers() {
+    const triggers = document.querySelectorAll(".lightbox-trigger");
+    galleryItems = Array.from(triggers).map((el) => ({
+      src: el.getAttribute("data-full") || (el as HTMLImageElement).src,
+      caption: el.getAttribute("data-caption") || "",
+    }));
+
+    triggers.forEach((el, idx) => {
+      el.addEventListener("click", () => openLightbox(idx));
+    });
+  }
+
+  closeBtn?.addEventListener("click", closeLightbox);
+  prevBtn?.addEventListener("click", showPrev);
+  nextBtn?.addEventListener("click", showNext);
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeLightbox();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (modal.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+  });
+
+  // Init on initial load and view transitions
+  setupTriggers();
+  document.addEventListener("astro:page-load", setupTriggers);
+</script>

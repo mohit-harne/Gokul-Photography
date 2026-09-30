@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Story {
+  slug: string;
+  couple: string;
+  location: string;
+  category: string;
+  coverImage: string;
+  excerpt: string;
+}
+
+const stories: Story[] = [
+  {
+    slug: "ananya-and-kabir",
+    couple: "Ananya & Kabir",
+    location: "Alila Fort Bishangarh, Jaipur",
+    category: "Royal Heritage Wedding",
+    coverImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "A two-day celebration within the 230-year-old warrior fortress, blending Rajput grandeur with quiet personal vows at dusk."
+  },
+  {
+    slug: "ria-and-dev",
+    couple: "Ria & Dev",
+    location: "Morjim Beach, North Goa",
+    category: "Intimate Coastal Elopement",
+    coverImage: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "Barefoot on the Arabian sea shore with just 30 of their closest friends and endless live jazz under string lights."
+  },
+  {
+    slug: "meera-and-aditya",
+    couple: "Meera & Aditya",
+    location: "Taj Falaknuma Palace, Hyderabad",
+    category: "Nawabi Grandeur",
+    coverImage: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "An opulent palace celebration framed by classical qawwalis, hand-embroidered velvet, and candlelit courtyard dinners."
+  }
+];
+---
+
+<Layout title="Wedding Stories | Imagination Studio">
+  <!-- Title Section -->
+  <section class="pt-36 pb-16 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
+    <p class="text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Documentary</p>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
+      Real Love Stories
+    </h1>
+    <p class="text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed">
+      Every celebration has its own cadence. Here are a few journeys we have had the honor to capture.
+    </p>
+  </section>
+
+  <!-- Stories Feed -->
+  <section class="max-w-6xl mx-auto px-6 md:px-12 pb-28 space-y-24">
+    {stories.map((story, index) => (
+      <article class={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-16`}>
+        <!-- Cover Photo with Subtle Zoom on Hover -->
+        <a href={`/stories/${story.slug}`} class="w-full md:w-1/2 overflow-hidden rounded-sm group block">
+          <img
+            src={story.coverImage}
+            alt={story.couple}
+            loading="lazy"
+            class="w-full h-[380px] sm:h-[460px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        </a>
+
+        <!-- Story Meta & Copy -->
+        <div class="w-full md:w-1/2 space-y-4 text-left">
+          <div class="flex items-center space-x-3 text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+            <span>{story.category}</span>
+            <span>&bull;</span>
+            <span>{story.location}</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-serif text-white font-normal hover:text-amber-100 transition-colors">
+            <a href={`/stories/${story.slug}`}>
+              {story.couple}
+            </a>
+          </h2>
+
+          <p class="text-neutral-400 font-light text-sm leading-relaxed">
+            {story.excerpt}
+          </p>
+
+          <div class="pt-4">
+            <a
+              href={`/stories/${story.slug}`}
+              class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] text-white hover:text-amber-200 transition-colors pb-1 border-b border-neutral-700 hover:border-amber-200"
+            >
+              <span>Read Full Story</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+</Layout>

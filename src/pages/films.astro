@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const films = [
+  {
+    title: "Echoes of Udaipur — Rhea & Kabir",
+    location: "The Oberoi Udaivilas, Udaipur",
+    duration: "4:32",
+    thumbnail: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    title: "Sands & Salt Air — Tanisha & Arman",
+    location: "Ashvem Beach, Goa",
+    duration: "5:14",
+    thumbnail: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80",
+    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    title: "A Fort Lit in Gold — Sanjana & Neil",
+    location: "Suryagarh, Jaisalmer",
+    duration: "6:05",
+    thumbnail: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80",
+    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  }
+];
+---
+
+<Layout title="Cinematic Wedding Films | Imagination Studio">
+  <section class="pt-36 pb-14 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
+    <p class="text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Cinema</p>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
+      Wedding Films
+    </h1>
+    <p class="text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed">
+      Motion, sound, and authentic dialogue woven into timeless cinematic heirlooms.
+    </p>
+  </section>
+
+  <!-- Featured First Film -->
+  <section class="max-w-6xl mx-auto px-6 md:px-12 pb-16">
+    <div class="relative group aspect-video w-full overflow-hidden rounded-sm bg-neutral-900 border border-neutral-800">
+      <img
+        src={films[0].thumbnail}
+        alt={films[0].title}
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80"
+      />
+      <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <button
+          type="button"
+          class="film-play-btn w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/70 flex items-center justify-center backdrop-blur-sm bg-black/30 hover:bg-white hover:text-black text-white transition-all duration-300 cursor-pointer"
+          data-video={films[0].embedUrl}
+          aria-label="Play Film"
+        >
+          <svg class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+        <span class="text-xs uppercase tracking-[0.25em] text-neutral-300">{films[0].location}</span>
+        <h2 class="text-2xl sm:text-3xl font-serif text-white">{films[0].title}</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid of Films -->
+  <section class="max-w-6xl mx-auto px-6 md:px-12 pb-28">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+      {films.slice(1).map((film) => (
+        <div class="space-y-4">
+          <div class="relative group aspect-video overflow-hidden rounded-sm bg-neutral-900 border border-neutral-800">
+            <img
+              src={film.thumbnail}
+              alt={film.title}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-85"
+            />
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+              <button
+                type="button"
+                class="film-play-btn w-14 h-14 rounded-full border border-white/70 flex items-center justify-center backdrop-blur-sm bg-black/30 hover:bg-white hover:text-black text-white transition-all duration-300 cursor-pointer"
+                data-video={film.embedUrl}
+                aria-label="Play Film"
+              >
+                <svg class="w-5 h-5 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </button>
+            </div>
+            <span class="absolute bottom-3 right-3 text-[10px] tracking-widest bg-black/80 text-neutral-300 px-2 py-1 rounded">
+              {film.duration}
+            </span>
+          </div>
+          <div>
+            <p class="text-[11px] tracking-[0.2em] uppercase text-neutral-400">{film.location}</p>
+            <h3 class="text-xl font-serif text-white mt-1">{film.title}</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="fixed inset-0 z-[110] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4 md:p-12">
+    <button id="close-video-modal" class="absolute top-6 right-6 text-white text-3xl font-light hover:text-neutral-400 cursor-pointer">
+      &times;
+    </button>
+    <div class="w-full max-w-5xl aspect-video bg-black rounded shadow-2xl overflow-hidden">
+      <iframe id="video-frame" class="w-full h-full" src="" title="Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const modal = document.getElementById('video-modal');
+  const frame = document.getElementById('video-frame') as HTMLIFrameElement;
+  const closeBtn = document.getElementById('close-video-modal');
+  const playButtons = document.querySelectorAll('.film-play-btn');
+
+  playButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.getAttribute('data-video');
+      if (url && frame && modal) {
+        frame.src = `${url}?autoplay=1`;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+      }
+    });
+  });
+
+  function closeModal() {
+    if (modal && frame) {
+      frame.src = '';
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+
+  closeBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+</script>

@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "How would you describe your photography and filming style?",
+    a: "Our aesthetic is documentary and cinematic. We focus on real emotions, natural lighting, and unstaged interactions. While we ensure you get classic portraits with family, 85% of our coverage is candid and unobtrusive."
+  },
+  {
+    q: "Do you travel for destination weddings?",
+    a: "Yes, we travel across India and internationally. Destination travel and stay logistics are organized alongside the couple or your wedding planner."
+  },
+  {
+    q: "How long does it take to deliver our photos and wedding films?",
+    a: "We deliver a curated preview set within 7 days of your wedding. The full collection of high-resolution retouched photographs is delivered within 4–6 weeks, and your cinematic highlight film along with full ceremonies is completed within 8–10 weeks."
+  },
+  {
+    q: "How many images will we receive?",
+    a: "For a typical 2–3 day wedding celebration, we typically deliver between 800 to 1,500 individually color-graded and hand-retouched high-resolution images."
+  },
+  {
+    q: "How do we lock our dates with Imagination Studio?",
+    a: "Dates are reserved exclusively on a first-come basis upon receipt of a signed contract and a 50% advance booking deposit."
+  }
+];
+---
+
+<Layout title="Frequently Asked Questions | Imagination Studio">
+  <section class="pt-36 pb-16 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
+    <p class="text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Information</p>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
+      Frequently Asked Questions
+    </h1>
+    <p class="text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed">
+      Everything you need to know about our workflow, coverage, deliverables, and booking process.
+    </p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 md:px-12 pb-28">
+    <div class="space-y-4">
+      {faqs.map((faq, idx) => (
+        <div class="border border-neutral-800 rounded-sm bg-neutral-900/40 overflow-hidden">
+          <button
+            type="button"
+            class="faq-toggle w-full text-left p-6 flex justify-between items-center space-x-4 cursor-pointer focus:outline-none"
+            aria-expanded="false"
+          >
+            <span class="text-base sm:text-lg font-serif text-neutral-200">{faq.q}</span>
+            <span class="faq-icon text-xl text-neutral-400 font-light transition-transform duration-300">+</span>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-6">
+            <p class="pb-6 text-sm text-neutral-400 font-light leading-relaxed">
+              {faq.a}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const toggles = document.querySelectorAll('.faq-toggle');
+
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const content = toggle.nextElementSibling as HTMLDivElement;
+      const icon = toggle.querySelector('.faq-icon') as HTMLElement;
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      // Close other accordions
+      toggles.forEach(other => {
+        if (other !== toggle) {
+          other.setAttribute('aria-expanded', 'false');
+          const otherContent = other.nextElementSibling as HTMLDivElement;
+          const otherIcon = other.querySelector('.faq-icon') as HTMLElement;
+          if (otherContent) otherContent.style.maxHeight = '0px';
+          if (otherIcon) otherIcon.textContent = '+';
+        }
+      });
+
+      // Toggle current
+      if (isExpanded) {
+        toggle.setAttribute('aria-expanded', 'false');
+        content.style.maxHeight = '0px';
+        icon.textContent = '+';
+      } else {
+        toggle.setAttribute('aria-expanded', 'true');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.textContent = '—';
+      }
+    });
+  });
+</script>

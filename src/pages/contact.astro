@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact & Inquiries | Imagination Studio">
+  <section class="pt-36 pb-12 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
+    <p class="text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Get In Touch</p>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
+      Let’s Tell Your Story
+    </h1>
+    <p class="text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed">
+      We take on a limited number of weddings each year to dedicate full attention to every story. Fill out the details below to check date availability.
+    </p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 md:px-12 pb-28">
+    <form class="space-y-8 bg-neutral-900/30 p-8 sm:p-12 border border-neutral-800 rounded-sm">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="name" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Your Names *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="e.g. Pooja & Rohan"
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="email" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="hello@domain.com"
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="phone" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Phone / WhatsApp *</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            placeholder="+91 98765 43210"
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="date" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Wedding / Event Date *</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            required
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="location" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">City & Venue</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="e.g. Udaipur, Leela Palace"
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="service" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Service Required</label>
+          <select
+            id="service"
+            name="service"
+            class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+          >
+            <option value="both">Both Photography & Wedding Film</option>
+            <option value="photo">Photography Only</option>
+            <option value="film">Wedding Film Only</option>
+            <option value="pre-wedding">Pre-Wedding / Couple Session</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label for="details" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Tell Us About Your Day</label>
+        <textarea
+          id="details"
+          name="details"
+          rows="5"
+          placeholder="Share your vision, events schedule, estimated guest count, or anything special you have planned..."
+          class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+        ></textarea>
+      </div>
+
+      <div class="text-center pt-2">
+        <button
+          type="submit"
+          class="w-full sm:w-auto inline-block border border-white px-10 py-3.5 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+        >
+          Send Inquiry
+        </button>
+      </div>
+    </form>
+  </section>
+</Layout>
