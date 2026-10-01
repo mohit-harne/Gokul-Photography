@@ -6,14 +6,22 @@ import Layout from '../layouts/Layout.astro';
   <!-- Full Screen Hero Section -->
   <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
     <!-- Background Image with Dark Vignette Overlay -->
-    <div class="absolute inset-0 z-0">
-      <img
-        src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80"
-        alt="Wedding couple"
-        class="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-neutral-950"></div>
-    </div>
+    <div class="absolute inset-0 z-0 overflow-hidden">
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    class="w-full h-full object-cover object-center"
+  >
+    <!-- Replace 'hero-video.mp4' with your exact video filename in public/ -->
+    <source src="/hero-video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay gradient for text readability -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-neutral-950"></div>
+</div>
 
     <!-- Hero Content -->
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-6">
