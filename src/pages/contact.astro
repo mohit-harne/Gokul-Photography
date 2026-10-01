@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Contact & Inquiries | Imagination Studio">
+<Layout title="Contact & Inquiries | Gokul Studios">
   <section class="pt-36 pb-12 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
     <p class="text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Get In Touch</p>
     <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
@@ -14,7 +14,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <section class="max-w-3xl mx-auto px-6 md:px-12 pb-28">
-    <form class="space-y-8 bg-neutral-900/30 p-8 sm:p-12 border border-neutral-800 rounded-sm">
+    <form id="inquiryForm" class="space-y-8 bg-neutral-900/30 p-8 sm:p-12 border border-neutral-800 rounded-sm">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div class="space-y-2">
           <label for="name" class="block text-xs uppercase tracking-[0.2em] text-neutral-400">Your Names *</label>
@@ -48,7 +48,7 @@ import Layout from '../layouts/Layout.astro';
             id="phone"
             name="phone"
             required
-            placeholder="+91 98765 43210"
+            placeholder="+91 82080 32718"
             class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
           />
         </div>
@@ -82,10 +82,10 @@ import Layout from '../layouts/Layout.astro';
             name="service"
             class="w-full bg-black/60 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
           >
-            <option value="both">Both Photography & Wedding Film</option>
-            <option value="photo">Photography Only</option>
-            <option value="film">Wedding Film Only</option>
-            <option value="pre-wedding">Pre-Wedding / Couple Session</option>
+            <option value="Both Photography & Wedding Film">Both Photography & Wedding Film</option>
+            <option value="Photography Only">Photography Only</option>
+            <option value="Wedding Film Only">Wedding Film Only</option>
+            <option value="Pre-Wedding / Couple Session">Pre-Wedding / Couple Session</option>
           </select>
         </div>
       </div>
@@ -104,11 +104,51 @@ import Layout from '../layouts/Layout.astro';
       <div class="text-center pt-2">
         <button
           type="submit"
-          class="w-full sm:w-auto inline-block border border-white px-10 py-3.5 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+          id="submitBtn"
+          class="w-full sm:w-auto inline-block border border-white px-10 py-3.5 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Send Inquiry
         </button>
       </div>
+
+      <div id="statusMessage" class="hidden text-center text-sm py-2"></div>
     </form>
   </section>
 </Layout>
+
+<script>
+  const form = document.getElementById('inquiryForm') as HTMLFormElement;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+  const statusMessage = document.getElementById('statusMessage') as HTMLDivElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    statusMessage.className = 'hidden';
+
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error('Submission failed');
+
+      form.reset();
+      statusMessage.textContent = 'Thank you! Your inquiry has been delivered directly to our team on WhatsApp.';
+      statusMessage.className = 'text-center text-sm text-emerald-400 pt-2 block';
+    } catch (err) {
+      statusMessage.textContent = 'Something went wrong while sending your inquiry. Please try again or call us directly.';
+      statusMessage.className = 'text-center text-sm text-rose-400 pt-2 block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Inquiry';
+    }
+  });
+</script>

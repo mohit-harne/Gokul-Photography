@@ -25,6 +25,7 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@types/node": "^26.6.3",
     "tailwindcss": "^4.3.3"
   }
 }
