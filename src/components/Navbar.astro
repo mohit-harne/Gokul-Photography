@@ -3,7 +3,7 @@ interface Props {
   studioName?: string;
 }
 
-const { studioName = "GOKUL PHOTOGRAPHY STUDIO" } = Astro.props;
+const { studioName = "GOKUL" } = Astro.props;
 
 const navLinks = [
   { name: "HOME", href: "/" },
@@ -23,15 +23,20 @@ const navLinks = [
 ];
 ---
 
-<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-5 px-6 md:px-12 bg-transparent text-white">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <!-- Brand Logo -->
-    <a href="/" class="text-xl md:text-2xl font-serif tracking-[0.25em] uppercase hover:opacity-80 transition-opacity">
-      {studioName}
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 sm:py-5 px-4 sm:px-8 md:px-10 lg:px-12 bg-transparent text-white">
+  <div class="w-full flex items-center justify-between">
+    <!-- Brand Logo: Leftmost, Compact, High-End Accent -->
+    <a href="/" class="group flex flex-col items-start leading-none shrink-0" aria-label="Gokul Photography Studio">
+      <span class="font-serif text-xl sm:text-2xl tracking-[0.2em] uppercase text-white group-hover:text-amber-200 transition-colors font-medium">
+        {studioName}
+      </span>
+      <span class="text-[8px] sm:text-[9.5px] tracking-[0.35em] uppercase text-neutral-400 font-light group-hover:text-neutral-200 transition-colors mt-0.5 sm:mt-1">
+        Photography Studio
+      </span>
     </a>
 
     <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center space-x-8 text-xs tracking-[0.2em] font-medium">
+    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-xs tracking-[0.2em] font-medium">
       {navLinks.map((item) => (
         item.dropdown ? (
           <div class="relative group py-2">
@@ -118,11 +123,11 @@ const navLinks = [
   // Dynamic Background shift on scroll
   window.addEventListener("scroll", () => {
     if (window.scrollY > 40) {
-      header?.classList.add("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3.5");
-      header?.classList.remove("py-5", "bg-transparent");
+      header?.classList.add("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
+      header?.classList.remove("py-4", "sm:py-5", "bg-transparent");
     } else {
-      header?.classList.remove("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3.5");
-      header?.classList.add("py-5", "bg-transparent");
+      header?.classList.remove("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
+      header?.classList.add("py-4", "sm:py-5", "bg-transparent");
     }
   });
 
