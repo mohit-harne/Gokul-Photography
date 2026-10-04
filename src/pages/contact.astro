@@ -30,115 +30,172 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <section class="pt-28 sm:pt-36 pb-10 px-5 sm:px-12 text-center max-w-4xl mx-auto space-y-3 sm:space-y-4">
-    <p class="text-[11px] sm:text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Get In Touch</p>
-    <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
+  <!-- Header Section (Streamlined for immediate visibility) -->
+  <section class="pt-24 sm:pt-28 pb-6 px-5 sm:px-8 text-center max-w-4xl mx-auto space-y-2">
+    <p class="text-[10px] sm:text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Get In Touch</p>
+    <h1 class="text-2xl sm:text-4xl md:text-5xl font-serif text-white tracking-wide">
       Let’s Tell Your Story
     </h1>
-    <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed px-2">
-      We take on a limited number of weddings each year to dedicate full attention to every story. Fill out the details below to check date availability.
+    <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-lg mx-auto leading-relaxed">
+      We take on a limited number of weddings each year to dedicate full attention to every story.
     </p>
   </section>
 
-  <section class="max-w-3xl mx-auto px-4 sm:px-10 pb-24">
-    <form id="inquiryForm" class="space-y-6 sm:space-y-8 bg-neutral-900/30 p-5 sm:p-12 border border-neutral-800 rounded-none">
+  <!-- Main Content: Side-by-Side Form & Studio Map Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-        <div class="space-y-2">
-          <label for="name" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Your Names *</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            placeholder="e.g. Pooja & Rohan"
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
-          />
-        </div>
-        <div class="space-y-2">
-          <label for="email" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Email Address *</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="hello@domain.com"
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
-          />
-        </div>
+      <!-- Left Column: Form -->
+      <div class="lg:col-span-7 flex flex-col">
+        <form id="inquiryForm" class="flex-1 flex flex-col justify-between space-y-4 sm:space-y-5 bg-neutral-900/30 p-5 sm:p-8 border border-neutral-800 rounded-none">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label for="name" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Your Names *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="e.g. Pooja & Rohan"
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label for="email" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="hello@domain.com"
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label for="phone" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Phone / WhatsApp *</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="+91 82080 32718"
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label for="date" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Wedding / Event Date *</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                required
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors [color-scheme:dark]"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label for="location" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">City & Venue</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                placeholder="e.g. Udaipur, Leela Palace"
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label for="service" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Service Required</label>
+              <select
+                id="service"
+                name="service"
+                class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors cursor-pointer"
+              >
+                <option value="Both Photography & Wedding Film">Both Photography & Wedding Film</option>
+                <option value="Photography Only">Photography Only</option>
+                <option value="Wedding Film Only">Wedding Film Only</option>
+                <option value="Pre-Wedding / Couple Session">Pre-Wedding / Couple Session</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label for="details" class="block text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-neutral-400">Tell Us About Your Day</label>
+            <textarea
+              id="details"
+              name="details"
+              rows="3"
+              placeholder="Share your vision, events schedule, estimated guest count, or anything special you have planned..."
+              class="w-full bg-black/60 border border-neutral-800 px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <div class="pt-2">
+            <button
+              type="submit"
+              id="submitBtn"
+              class="w-full border border-white px-8 py-3 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Send Inquiry
+            </button>
+          </div>
+        </form>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-        <div class="space-y-2">
-          <label for="phone" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Phone / WhatsApp *</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            placeholder="+91 82080 32718"
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
-          />
+      <!-- Right Column: Studio Address & Dark Map -->
+      <div class="lg:col-span-5 flex flex-col border border-neutral-800 bg-neutral-900/30 overflow-hidden">
+        
+        <!-- Address Details Header -->
+        <div class="p-5 sm:p-7 border-b border-neutral-800 space-y-4">
+          <div>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 font-light block mb-1">Gokul Studios</span>
+            <h2 class="text-xl sm:text-2xl font-serif text-white tracking-wide">Visit Our Studio</h2>
+            <p class="text-xs text-neutral-400 font-light mt-1 leading-relaxed">
+              Cinematic wedding films and fine-art photography crafted with heart and authenticity.
+            </p>
+          </div>
+
+          <div class="flex items-start gap-3 text-xs text-neutral-300 font-light leading-relaxed">
+            <span class="text-neutral-500 text-sm mt-0.5">📍</span>
+            <div>
+              <p class="text-white font-normal">Shop No. 1-2-7-8, 1st Floor, "TRADE MARK" Complex,</p>
+              <p class="text-neutral-400">Near Gadge Baba Temple, Gadge Nagar,</p>
+              <p class="text-neutral-400">Amravati – 444603</p>
+            </div>
+          </div>
+
+          <div>
+            <a
+  href="https://www.google.com/maps/place/Gokul+Photography/@20.9457794,77.7667251,17z/data=!4m6!3m5!1s0x3bd6a37b00000015:0x2e7bda3dd0dac60d!8m2!3d20.9457794!4d77.7667251!16s%2Fg%2F11c5fz532b"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors border-b border-neutral-700 pb-0.5 hover:border-white"
+>
+              <span>Get Directions</span>
+              <span>↗</span>
+            </a>
+          </div>
         </div>
-        <div class="space-y-2">
-          <label for="date" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Wedding / Event Date *</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors [color-scheme:dark]"
-          />
+
+        <!-- Fully Symmetrical Dark Embedded Map -->
+        <div class="flex-1 min-h-[260px] relative bg-neutral-950">
+          <iframe
+  title="Gokul Studios Location Map"
+  src="https://maps.google.com/maps?q=20.9457794,77.7667251+(Gokul+Photography)&t=&z=17&ie=UTF8&iwloc=B&output=embed"
+  class="w-full h-full min-h-[260px] border-0 filter invert-[0.9] hue-rotate-180 contrast-[1.2] brightness-[0.85] opacity-85 hover:opacity-100 transition-opacity duration-300"
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+></iframe>
         </div>
+
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-        <div class="space-y-2">
-          <label for="location" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">City & Venue</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            placeholder="e.g. Udaipur, Leela Palace"
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors"
-          />
-        </div>
-        <div class="space-y-2">
-          <label for="service" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Service Required</label>
-          <select
-            id="service"
-            name="service"
-            class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-neutral-300 focus:outline-none focus:border-neutral-500 rounded-none transition-colors cursor-pointer"
-          >
-            <option value="Both Photography & Wedding Film">Both Photography & Wedding Film</option>
-            <option value="Photography Only">Photography Only</option>
-            <option value="Wedding Film Only">Wedding Film Only</option>
-            <option value="Pre-Wedding / Couple Session">Pre-Wedding / Couple Session</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <label for="details" class="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-400">Tell Us About Your Day</label>
-        <textarea
-          id="details"
-          name="details"
-          rows="4"
-          placeholder="Share your vision, events schedule, estimated guest count, or anything special you have planned..."
-          class="w-full bg-black/60 border border-neutral-800 px-3.5 py-3 text-base sm:text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 rounded-none transition-colors resize-y"
-        ></textarea>
-      </div>
-
-      <div class="text-center pt-2">
-        <button
-          type="submit"
-          id="submitBtn"
-          class="w-full sm:w-auto inline-block border border-white px-8 sm:px-10 py-3.5 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Send Inquiry
-        </button>
-      </div>
-    </form>
+    </div>
   </section>
 </Layout>
 
