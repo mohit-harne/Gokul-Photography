@@ -1,18 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
+import { Image } from 'astro:assets';
 // Portfolio highlights
 const portfolioCategories = [
   {
     title: "Weddings",
     subtitle: "Ceremonies & Celebrations",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    image: "/src/assets/wedding/Wedding (5).jpg",
     link: "/portfolio/weddings",
   },
   {
     title: "Pre-Weddings",
     subtitle: "Intimate Engagements",
-    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80",
+    image: "/src/assets/pre_wedding/Pre-Wedding (8).jpg",
     link: "/portfolio/pre-weddings",
   }
 ];
@@ -23,21 +23,21 @@ const latestStories = [
     couple: "Divya & Kashyap",
     location: "Nagpur",
     category: "Wedding",
-    image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/stories/stories (1).jpg",
     link: "/stories/divya-kashyap",
   },
   {
     couple: "Vrushali & Pruthviraj",
     location: "Pune",
     category: "Royal Wedding",
-    image: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/stories/stories (2).jpg",
     link: "/stories/vrushali-pruthviraj",
   },
   {
     couple: "Tushar & Srishti",
     location: "Mumbai",
     category: "Destination Wedding",
-    image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/stories/stories (3).jpg",
     link: "/stories/tushar-srishti",
   }
 ];
@@ -46,29 +46,29 @@ const latestStories = [
 const featuredFilms = [
   {
     tag: "Lovebirds",
-    couple: "Tanvi & Kartik",
+    couple: "Pratik & Shrusti",
     event: "Wedding Film",
     description: "A love marriage is a beautiful union where two individuals choose each other based on mutual affection, deep friendship, and understanding.",
     thumbnail: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1200&q=80",
-    videoUrl: "#",
+    videoId: "1t32XVVVCFw", // Extract just the ID from https://www.youtube.com/watch?v=...
   },
   {
     tag: "Soulmates",
-    couple: "Tushar & Srishti",
+    couple: "Ankit & Aporva",
     event: "Wedding Film",
     description: "Love is the expansion of two natures in such fashion that each includes the other, and each is enriched by the other.",
     thumbnail: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
-    videoUrl: "#",
+    videoId: "qU92sQZbnpk", // Leave blank or add an ID
   }
 ];
 
 // Experience / Visual Gallery
-const galleryImages = [
-  "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=600&q=80"
-];
+const imageModules = import.meta.glob('/src/assets/gallery/*.jpg', {
+  eager: true,
+  import: 'default',
+});
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing-page-gallery/*.jpg');
 ---
 
 <Layout>
@@ -94,12 +94,12 @@ const galleryImages = [
 
     <!-- Hero Content -->
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-6">
-      <p class="text-xs md:text-sm tracking-[0.35em] text-neutral-300 uppercase font-light">
-        Cinematic Wedding Films & Photography
-      </p>
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-wide text-white leading-tight">
-        Your love story, framed by Gokul Studios
-      </h1>
+     <p class="text-xs md:text-sm tracking-[0.35em] text-neutral-300 uppercase font-light">
+  Cinematic Wedding Films & Photography
+</p>
+<h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-light text-white leading-tight">
+  Your <span class="font-['Alex_Brush'] text-5xl sm:text-7xl md:text-8xl text-amber-100/90 font-normal capitalize inline-block px-1">love story</span>, framed by Gokul Studios
+</h1>
       <div class="pt-4">
         <a
           href="/portfolio"
@@ -160,6 +160,8 @@ const galleryImages = [
           class="group relative h-[420px] sm:h-[500px] overflow-hidden block border border-neutral-800/80 bg-neutral-900"
         >
           <img
+          width={600}
+  height={800}
             src={item.image}
             alt={item.title}
             loading="lazy"
@@ -236,49 +238,47 @@ const galleryImages = [
         </h3>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-        {featuredFilms.map((film) => (
-          <div class="space-y-6 flex flex-col justify-between">
-            <div class="relative group aspect-video overflow-hidden border border-neutral-800 bg-neutral-900">
-              <img
-                src={film.thumbnail}
-                alt={film.couple}
-                loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                <a
-                  href={film.videoUrl}
-                  aria-label={`Play film for ${film.couple}`}
-                  class="w-16 h-16 rounded-full border border-white/80 bg-black/50 backdrop-blur-sm flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-white group-hover:text-black transition-all duration-300"
-                >
-                  <svg class="w-6 h-6 ml-0.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            <div class="space-y-3">
-              <div class="flex items-center gap-3">
-                <span class="text-xs uppercase tracking-[0.25em] text-neutral-400 font-light">
-                  "{film.tag}"
-                </span>
-                <span class="text-neutral-600">&bull;</span>
-                <span class="text-xs uppercase tracking-[0.2em] text-neutral-500">
-                  {film.event}
-                </span>
-              </div>
-              <h4 class="text-2xl font-serif text-white font-normal">
-                {film.couple}
-              </h4>
-              <p class="text-sm text-neutral-400 font-light leading-relaxed">
-                {film.description}
-              </p>
-            </div>
-          </div>
-        ))}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+  {featuredFilms.map((film) => (
+    <div class="space-y-6 flex flex-col justify-between">
+      <div class="relative aspect-video overflow-hidden border border-neutral-800 bg-neutral-900 pointer-events-none select-none">
+        {film.videoId ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${film.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${film.videoId}&playsinline=1&rel=0&showinfo=0&modestbranding=1&disablekb=1&fs=0`}
+            title={film.couple}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            tabindex="-1"
+            class="w-full h-full object-cover scale-[1.05]"
+          ></iframe>
+        ) : (
+          <img
+            src={film.thumbnail}
+            alt={film.couple}
+            class="w-full h-full object-cover"
+          />
+        )}
       </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <span class="text-xs uppercase tracking-[0.25em] text-neutral-400 font-light">
+            "{film.tag}"
+          </span>
+          <span class="text-neutral-600">&bull;</span>
+          <span class="text-xs uppercase tracking-[0.2em] text-neutral-500">
+            {film.event}
+          </span>
+        </div>
+        <h4 class="text-2xl font-serif text-white font-normal">
+          {film.couple}
+        </h4>
+        <p class="text-sm text-neutral-400 font-light leading-relaxed">
+          {film.description}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
     </div>
   </section>
 
@@ -292,17 +292,22 @@ const galleryImages = [
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {galleryImages.map((src, index) => (
-        <div class="overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80">
-          <img
-            src={src}
-            alt={`Wedding moment ${index + 1}`}
-            loading="lazy"
-            class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-out"
-          />
-        </div>
-      ))}
-    </div>
+  {Object.values(images).map(async (imagePromise, index) => {
+    const img = await imagePromise();
+    return (
+      <div class="overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80">
+        <Image
+        width={600}
+  height={800}
+          src={img.default}
+          alt={`Wedding moment ${index + 1}`}
+          loading="lazy"
+          class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-out"
+        />
+      </div>
+    );
+  })}
+</div>
   </section>
 
   <!-- Big Statement & Call To Action -->

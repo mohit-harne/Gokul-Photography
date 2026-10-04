@@ -4,9 +4,9 @@ import Lightbox from '../../components/Lightbox.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-// Scan all wedding images in src/assets/weddings
+// Scan all event images in src/assets/events
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/{weddings,wedding}/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
+  '/src/assets/{events,event}/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
   { eager: true }
 );
 
@@ -19,7 +19,7 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
 
   return {
     image: imageObj,
-    fullSrc: imageObj.src, // Used by the lightbox for full-resolution view
+    fullSrc: imageObj.src,
     caption,
     width: imageObj.width,
     height: imageObj.height,
@@ -27,15 +27,15 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
 });
 ---
 
-<Layout title="Wedding Photography | Gokul Photography Studio">
+<Layout title="Event Photography | Gokul Photography Studio">
   <!-- Header Banner -->
   <section class="pt-32 sm:pt-36 pb-12 sm:pb-16 px-5 sm:px-12 text-center max-w-4xl mx-auto space-y-3 sm:space-y-4">
     <p class="text-[11px] sm:text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Gallery</p>
     <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
-      Weddings &amp; Elopements
+      Events &amp; Gatherings
     </h1>
     <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed pt-1 sm:pt-2 px-4">
-      Intimate vows, timeless portraits, and honest unscripted documentary moments captured across India.
+      Corporate summits, cultural festivals, and private ceremonies documented with cinematic precision.
     </p>
   </section>
 
@@ -43,8 +43,8 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
   <section class="px-4 sm:px-8 md:px-12 pb-24 max-w-7xl mx-auto">
     {photos.length === 0 ? (
       <div class="text-center py-20 border border-neutral-800 bg-neutral-900/30 p-8">
-        <p class="text-neutral-400 text-sm">No images found in <code class="text-neutral-200">src/assets/weddings/</code>.</p>
-        <p class="text-xs text-neutral-500 mt-2">Add your wedding photos to that folder to see them load here.</p>
+        <p class="text-neutral-400 text-sm">No images found in <code class="text-neutral-200">src/assets/events/</code>.</p>
+        <p class="text-xs text-neutral-500 mt-2">Add your event photos to that folder to see them load here.</p>
       </div>
     ) : (
       <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
@@ -53,12 +53,12 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
             class="relative group overflow-hidden bg-neutral-900/80 break-inside-avoid rounded-none cursor-pointer skeleton-wrapper"
             style={`aspect-ratio: ${item.width} / ${item.height};`}
           >
-            <!-- Animated Skeleton Shimmer (Removed as soon as image loads) -->
+            <!-- Animated Skeleton Shimmer -->
             <div class="skeleton-shimmer absolute inset-0 z-0 bg-neutral-900 overflow-hidden pointer-events-none">
               <div class="w-full h-full bg-gradient-to-r from-transparent via-neutral-800/60 to-transparent -translate-x-full animate-[shimmer_1.8s_infinite]"></div>
             </div>
 
-            <!-- Optimized Grid Image (Fast WebP thumbnail ~800px) -->
+            <!-- Optimized Grid Image -->
             <Image
               src={item.image}
               alt={item.caption}
@@ -98,7 +98,6 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
 </style>
 
 <script>
-  // Fallback for cached images that load before the inline onload event attaches
   document.querySelectorAll('img.lightbox-trigger').forEach((img) => {
     const htmlImg = img as HTMLImageElement;
     if (htmlImg.complete) {
