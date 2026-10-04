@@ -1,16 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Lightbox from '../../components/Lightbox.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-// Scan all event images in src/assets/events
+// Scan all event images in src/assets/events or src/assets/event
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/{events,event}/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
   { eager: true }
 );
 
-const photos = Object.entries(imageModules).map(([filePath, mod]) => {
+const photos = Object.entries(imageModules).map(([filePath, mod], idx) => {
   const imageObj = mod.default;
   const fileName = filePath.split('/').pop()?.replace(/\.[^/.]+$/, '') || '';
   const caption = fileName
@@ -18,6 +17,7 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
   return {
+    index: String(idx + 1).padStart(2, '0'),
     image: imageObj,
     fullSrc: imageObj.src,
     caption,
@@ -27,35 +27,48 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
 });
 ---
 
-<Layout title="Event Photography | Gokul Photography Studio">
-  <!-- Header Banner -->
-  <section class="pt-32 sm:pt-36 pb-12 sm:pb-16 px-5 sm:px-12 text-center max-w-4xl mx-auto space-y-3 sm:space-y-4">
-    <p class="text-[11px] sm:text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Gallery</p>
-    <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide">
-      Events &amp; Gatherings
+<Layout title="Events & Soirées | Gokul Photography Studio">
+  <!-- Editorial Header Section -->
+  <section class="pt-36 sm:pt-44 pb-16 sm:pb-24 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
+    <div class="flex items-center justify-center gap-3">
+      <span class="h-[1px] w-8 bg-amber-200/40"></span>
+      <p class="text-[10px] tracking-[0.35em] text-neutral-400 uppercase font-light">Gallery № 06</p>
+      <span class="h-[1px] w-8 bg-amber-200/40"></span>
+    </div>
+    
+    <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide font-light">
+      Events <span class="italic font-normal text-amber-100/90">&amp;</span> Soirées
     </h1>
-    <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed pt-1 sm:pt-2 px-4">
-      Corporate summits, cultural festivals, and private ceremonies documented with cinematic precision.
+    
+    <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-xl mx-auto leading-relaxed pt-2">
+      Cultural galas, grand gatherings, and private celebrations captured with an intentional editorial eye.
     </p>
+
+    <div class="pt-6 flex justify-center items-center gap-2 text-neutral-600">
+      <div class="w-1.5 h-1.5 rotate-45 border border-amber-200/40"></div>
+    </div>
   </section>
 
-  <!-- Responsive Masonry Grid -->
-  <section class="px-4 sm:px-8 md:px-12 pb-24 max-w-7xl mx-auto">
+  <!-- Gallery Grid -->
+  <section class="px-4 sm:px-8 md:px-12 pb-32 max-w-7xl mx-auto">
     {photos.length === 0 ? (
-      <div class="text-center py-20 border border-neutral-800 bg-neutral-900/30 p-8">
+      <div class="text-center py-24 border border-neutral-900 bg-neutral-950/60 p-8">
         <p class="text-neutral-400 text-sm">No images found in <code class="text-neutral-200">src/assets/events/</code>.</p>
-        <p class="text-xs text-neutral-500 mt-2">Add your event photos to that folder to see them load here.</p>
+        <p class="text-xs text-neutral-500 mt-2">Add your event photos into that folder to see them load here automatically.</p>
       </div>
     ) : (
-      <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
-        {photos.map((item) => (
+      <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-8 [column-fill:_balance]">
+        {photos.map((item, i) => (
           <div 
-            class="relative group overflow-hidden bg-neutral-900/80 break-inside-avoid rounded-none cursor-pointer skeleton-wrapper"
+            class="gallery-card group relative mb-6 sm:mb-8 break-inside-avoid overflow-hidden bg-neutral-950 border border-neutral-900/80 cursor-pointer opacity-0 translate-y-16 scale-95 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
             style={`aspect-ratio: ${item.width} / ${item.height};`}
+            data-index={i}
+            data-full={item.fullSrc}
+            data-caption={item.caption}
           >
             <!-- Animated Skeleton Shimmer -->
             <div class="skeleton-shimmer absolute inset-0 z-0 bg-neutral-900 overflow-hidden pointer-events-none">
-              <div class="w-full h-full bg-gradient-to-r from-transparent via-neutral-800/60 to-transparent -translate-x-full animate-[shimmer_1.8s_infinite]"></div>
+              <div class="w-full h-full bg-gradient-to-r from-transparent via-neutral-800/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
             </div>
 
             <!-- Optimized Grid Image -->
@@ -67,17 +80,36 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
               quality={80}
               loading="lazy"
               decoding="async"
-              data-full={item.fullSrc}
-              data-caption={item.caption}
-              class="lightbox-trigger relative z-10 w-full h-auto object-cover opacity-0 transition-all duration-700 ease-out group-hover:scale-105"
-              onload="this.classList.remove('opacity-0'); this.closest('.skeleton-wrapper')?.querySelector('.skeleton-shimmer')?.remove();"
+              class="relative z-10 w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+              onload="this.closest('.gallery-card')?.querySelector('.skeleton-shimmer')?.remove();"
             />
 
-            <!-- Editorial Hover Overlay -->
-            <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5 pointer-events-none">
-              <span class="text-white text-xs font-serif tracking-wider uppercase font-light">
-                {item.caption}
-              </span>
+            <!-- Architectural Inner Frame Line on Hover -->
+            <div class="absolute inset-3 z-20 pointer-events-none border border-amber-200/0 group-hover:border-amber-200/30 transition-all duration-500 scale-95 group-hover:scale-100"></div>
+
+            <!-- Minimal Index Tag (Top Left) -->
+            <span class="absolute top-4 left-4 z-20 text-[9px] tracking-[0.25em] font-mono text-neutral-400/80 uppercase pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              № {item.index}
+            </span>
+
+            <!-- Expand Fullscreen Glyph (Top Right) -->
+            <div class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+              </svg>
+            </div>
+
+            <!-- Editorial Overlay (Bottom) -->
+            <div class="absolute inset-0 z-20 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 pointer-events-none">
+              <div class="transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out space-y-1.5">
+                <div class="w-5 h-[1px] bg-amber-200/60 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-100"></div>
+                <h2 class="text-white text-base sm:text-lg font-serif tracking-wide font-light">
+                  {item.caption}
+                </h2>
+                <p class="text-[10px] tracking-[0.25em] text-neutral-400 uppercase font-light">
+                  Click for Full Screen
+                </p>
+              </div>
             </div>
           </div>
         ))}
@@ -85,8 +117,92 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
     )}
   </section>
 
-  <!-- Lightbox Mount -->
-  <Lightbox />
+  <!-- High-End Fullscreen Lightbox Modal -->
+  <div 
+    id="fullscreen-viewer"
+    class="fixed inset-0 z-[200] bg-neutral-950/98 backdrop-blur-2xl flex flex-col items-center justify-between p-4 sm:p-8 opacity-0 pointer-events-none transition-all duration-500 select-none"
+    role="dialog" 
+    aria-modal="true"
+  >
+    <!-- Top Bar: Counter & Controls -->
+    <div class="w-full flex items-center justify-between max-w-7xl pt-2 sm:pt-4 px-2 z-30">
+      <div class="flex items-center gap-3">
+        <span id="viewer-counter" class="text-xs font-mono tracking-[0.25em] text-neutral-400">01 / {String(photos.length).padStart(2, '0')}</span>
+        <span class="h-3 w-[1px] bg-neutral-800"></span>
+        <span id="viewer-caption-top" class="text-xs font-serif tracking-wider text-neutral-200 hidden sm:inline"></span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Native Fullscreen Toggle Button -->
+        <button 
+          id="viewer-fullscreen-btn" 
+          type="button"
+          class="w-10 h-10 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800 hover:text-amber-200 text-neutral-300 flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Toggle Browser Fullscreen"
+          title="Toggle Fullscreen"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+          </svg>
+        </button>
+
+        <!-- Close Viewer Button -->
+        <button 
+          id="viewer-close-btn" 
+          type="button"
+          class="w-10 h-10 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-white hover:text-black text-neutral-300 flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Close Fullscreen Viewer"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Stage: The Full Resolution Image -->
+    <div class="relative w-full flex-1 flex items-center justify-center overflow-hidden my-auto py-2">
+      <!-- Nav Button: Prev -->
+      <button 
+        id="viewer-prev-btn" 
+        type="button" 
+        class="absolute left-2 sm:left-6 z-30 w-11 h-11 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800 hover:text-amber-200 text-white flex items-center justify-center transition-colors cursor-pointer"
+        aria-label="Previous image"
+      >
+        <svg class="w-5 h-5 -translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+
+      <!-- Image Container -->
+      <div id="viewer-img-wrapper" class="relative max-w-full max-h-[82vh] flex items-center justify-center transform transition-transform duration-500 ease-out scale-95 opacity-0">
+        <img 
+          id="viewer-img" 
+          src="" 
+          alt="" 
+          class="max-w-full max-h-[82vh] w-auto h-auto object-contain rounded-none border border-neutral-900 shadow-2xl transition-opacity duration-300"
+        />
+      </div>
+
+      <!-- Nav Button: Next -->
+      <button 
+        id="viewer-next-btn" 
+        type="button" 
+        class="absolute right-2 sm:right-6 z-30 w-11 h-11 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800 hover:text-amber-200 text-white flex items-center justify-center transition-colors cursor-pointer"
+        aria-label="Next image"
+      >
+        <svg class="w-5 h-5 translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Bottom Bar: Caption -->
+    <div class="w-full text-center pb-3 sm:pb-4 z-30 space-y-1">
+      <h3 id="viewer-caption" class="text-sm sm:text-base font-serif tracking-wide text-neutral-200 font-light"></h3>
+      <p class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase">Use Left / Right Arrows to navigate · Esc to close</p>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -95,14 +211,142 @@ const photos = Object.entries(imageModules).map(([filePath, mod]) => {
       transform: translateX(100%);
     }
   }
+
+  /* Smooth upslide target state */
+  .gallery-card.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
 </style>
 
 <script>
-  document.querySelectorAll('img.lightbox-trigger').forEach((img) => {
-    const htmlImg = img as HTMLImageElement;
-    if (htmlImg.complete) {
-      htmlImg.classList.remove('opacity-0');
-      htmlImg.closest('.skeleton-wrapper')?.querySelector('.skeleton-shimmer')?.remove();
+  function setupGalleryAndLightbox() {
+    const cards = document.querySelectorAll<HTMLElement>('.gallery-card');
+    const viewer = document.getElementById('fullscreen-viewer');
+    const viewerImg = document.getElementById('viewer-img') as HTMLImageElement;
+    const viewerImgWrapper = document.getElementById('viewer-img-wrapper');
+    const viewerCounter = document.getElementById('viewer-counter');
+    const viewerCaption = document.getElementById('viewer-caption');
+    const viewerCaptionTop = document.getElementById('viewer-caption-top');
+    const closeBtn = document.getElementById('viewer-close-btn');
+    const prevBtn = document.getElementById('viewer-prev-btn');
+    const nextBtn = document.getElementById('viewer-next-btn');
+    const fullscreenBtn = document.getElementById('viewer-fullscreen-btn');
+
+    // 1. Butter-Smooth Upslide Reveal Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1,
+      }
+    );
+
+    cards.forEach((card, index) => {
+      card.style.transitionDelay = `${(index % 3) * 110}ms`;
+      observer.observe(card);
+    });
+
+    // 2. Fullscreen Viewer Logic
+    let currentIndex = 0;
+    const totalCount = cards.length;
+
+    function renderImage(idx: number) {
+      if (idx < 0) idx = totalCount - 1;
+      if (idx >= totalCount) idx = 0;
+      currentIndex = idx;
+
+      const card = cards[currentIndex];
+      const fullSrc = card.getAttribute('data-full') || '';
+      const caption = card.getAttribute('data-caption') || '';
+
+      if (viewerImg && viewerCounter && viewerCaption && viewerCaptionTop) {
+        viewerImg.style.opacity = '0';
+        setTimeout(() => {
+          viewerImg.src = fullSrc;
+          viewerImg.alt = caption;
+          viewerCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(totalCount).padStart(2, '0')}`;
+          viewerCaption.textContent = caption;
+          viewerCaptionTop.textContent = caption;
+          viewerImg.style.opacity = '1';
+        }, 150);
+      }
     }
-  });
+
+    function openViewer(idx: number) {
+      if (!viewer || !viewerImgWrapper) return;
+      renderImage(idx);
+      viewer.classList.remove('opacity-0', 'pointer-events-none');
+      viewer.classList.add('opacity-100', 'pointer-events-auto');
+
+      requestAnimationFrame(() => {
+        viewerImgWrapper.classList.remove('scale-95', 'opacity-0');
+        viewerImgWrapper.classList.add('scale-100', 'opacity-100');
+      });
+
+      document.documentElement.classList.add('overflow-hidden');
+      document.body.classList.add('overflow-hidden', 'touch-none');
+    }
+
+    function closeViewer() {
+      if (!viewer || !viewerImgWrapper) return;
+      viewer.classList.add('opacity-0', 'pointer-events-none');
+      viewer.classList.remove('opacity-100', 'pointer-events-auto');
+      viewerImgWrapper.classList.add('scale-95', 'opacity-0');
+      viewerImgWrapper.classList.remove('scale-100', 'opacity-100');
+
+      document.documentElement.classList.remove('overflow-hidden');
+      document.body.classList.remove('overflow-hidden', 'touch-none');
+
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => openViewer(index));
+    });
+
+    closeBtn?.addEventListener('click', closeViewer);
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); renderImage(currentIndex - 1); });
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); renderImage(currentIndex + 1); });
+
+    fullscreenBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        viewer?.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (!viewer || viewer.classList.contains('pointer-events-none')) return;
+      if (e.key === 'Escape') closeViewer();
+      if (e.key === 'ArrowLeft') renderImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') renderImage(currentIndex + 1);
+    });
+
+    viewer?.addEventListener('click', (e) => {
+      if (e.target === viewer || (e.target as HTMLElement).id === 'viewer-img-wrapper') {
+        closeViewer();
+      }
+    });
+
+    document.querySelectorAll<HTMLImageElement>('img').forEach((img) => {
+      if (img.complete) {
+        img.closest('.gallery-card')?.querySelector('.skeleton-shimmer')?.remove();
+      }
+    });
+  }
+
+  setupGalleryAndLightbox();
+  document.addEventListener('astro:page-load', setupGalleryAndLightbox);
 </script>

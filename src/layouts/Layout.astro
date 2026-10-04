@@ -2,7 +2,7 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import SocialDock  from '../components/SocialDock.astro';
-
+import ArtisticLoader from '../components/ArtisticLoader.astro';
 interface Props {
   title?: string;
   description?: string;
@@ -60,6 +60,7 @@ const {
     </script>
   </head>
   <body class="bg-neutral-950 text-neutral-100 font-sans antialiased selection:bg-neutral-800 selection:text-amber-100 min-h-screen">
+    <ArtisticLoader studioName="GOKUL" tagline="CINEMATIC HEIRLOOMS" />
     <Navbar />
     <SocialDock/>
     <main>

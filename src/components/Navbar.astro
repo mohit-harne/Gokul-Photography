@@ -11,7 +11,6 @@ const navLinks = [
   { name: "HOME", href: "/" },
   {
     name: "PORTFOLIO",
-    href: "/portfolio",
     dropdown: [
       { name: "WEDDING", href: "/portfolio/wedding" },
       { name: "PRE-WEDDING", href: "/portfolio/pre-wedding" },
@@ -29,10 +28,16 @@ const navLinks = [
 ];
 ---
 
-<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 sm:py-5 px-4 sm:px-8 md:px-10 lg:px-12 bg-transparent text-white">
+<!-- Added: transition:persist, outline-none, and transition-colors (replacing transition-all) -->
+<header
+  id="site-header"
+  transition:persist
+  class="fixed top-0 left-0 w-full z-50 transition-colors duration-300 py-4 sm:py-5 px-4 sm:px-8 md:px-10 lg:px-12 bg-transparent text-white outline-none focus:outline-none"
+  tabindex="-1"
+>
   <div class="w-full flex items-center justify-between">
     <!-- Brand Logo -->
-    <a href="/" class="group flex items-center shrink-0" aria-label={`${studioName} Photography Studio`}>
+    <a href="/" class="group flex items-center shrink-0 outline-none focus:outline-none" aria-label={`${studioName} Photography Studio`}>
       <Image
         src={GokulLogo}
         alt={`${studioName} Photography Logo`}
@@ -49,7 +54,7 @@ const navLinks = [
             <div class="flex items-center space-x-1.5 cursor-pointer">
               <a 
                 href={item.href} 
-                class="hover:text-amber-200 transition-colors uppercase"
+                class="hover:text-amber-200 transition-colors uppercase outline-none focus:outline-none"
               >
                 {item.name}
               </a>
@@ -58,13 +63,12 @@ const navLinks = [
               </svg>
             </div>
             
-            <!-- Hover dropdown with invisible bridge so cursor doesn't lose hover -->
             <div class="absolute left-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
               <div class="bg-black/95 backdrop-blur-md border border-neutral-800 rounded-none shadow-2xl py-2">
                 {item.dropdown.map((subItem) => (
                   <a
                     href={subItem.href}
-                    class="block px-4 py-2 hover:bg-neutral-800/80 hover:text-amber-200 transition-colors text-[11px] text-neutral-300 tracking-wider"
+                    class="block px-4 py-2 hover:bg-neutral-800/80 hover:text-amber-200 transition-colors text-[11px] text-neutral-300 tracking-wider outline-none focus:outline-none"
                   >
                     {subItem.name}
                   </a>
@@ -75,7 +79,7 @@ const navLinks = [
         ) : (
           <a
             href={item.href}
-            class="hover:text-amber-200 transition-colors py-2 uppercase"
+            class="hover:text-amber-200 transition-colors py-2 uppercase outline-none focus:outline-none"
           >
             {item.name}
           </a>
@@ -87,7 +91,7 @@ const navLinks = [
     <button
       id="menu-btn"
       type="button"
-      class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none z-50 cursor-pointer"
+      class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 outline-none focus:outline-none z-50 cursor-pointer"
       aria-label="Toggle Navigation"
     >
       <span class="block w-6 h-0.5 bg-white transition-transform duration-300 origin-center" id="line-top"></span>
@@ -95,116 +99,134 @@ const navLinks = [
       <span class="block w-6 h-0.5 bg-white transition-transform duration-300 origin-center" id="line-bot"></span>
     </button>
   </div>
-
-  <!-- Mobile Drawer Overlay -->
-  <div
-    id="mobile-drawer"
-    class="fixed inset-0 bg-neutral-950/98 backdrop-blur-2xl flex flex-col justify-start items-center opacity-0 pointer-events-none transition-all duration-300 md:hidden z-40 pt-24 pb-12 px-6 overflow-y-auto"
-  >
-    <ul class="flex flex-col items-center space-y-5 text-sm tracking-[0.25em] font-light w-full max-w-xs text-center">
-      {navLinks.map((item) => (
-        item.dropdown ? (
-          <li class="w-full flex flex-col items-center border-b border-neutral-900 pb-3">
-            <div class="flex items-center justify-center gap-2 w-full py-1">
-              <a href={item.href} class="mobile-link text-white hover:text-amber-200">
-                {item.name}
-              </a>
-              <button
-                type="button"
-                id="mobile-portfolio-toggle"
-                class="p-2 text-neutral-400 hover:text-white focus:outline-none cursor-pointer"
-                aria-label="Toggle Portfolio Submenu"
-              >
-                <svg id="mobile-portfolio-arrow" class="w-3.5 h-3.5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-            
-            <!-- Collapsible Dropdown in Mobile Drawer -->
-            <div id="mobile-portfolio-submenu" class="hidden flex-col space-y-3 pt-3 pb-2 w-full bg-neutral-900/40 border border-neutral-800/80 my-2">
-              {item.dropdown.map((subItem) => (
-                <a 
-                  href={subItem.href} 
-                  class="mobile-link text-neutral-400 hover:text-amber-200 text-xs tracking-[0.2em] py-1 block"
-                >
-                  {subItem.name}
-                </a>
-              ))}
-            </div>
-          </li>
-        ) : (
-          <li class="w-full border-b border-neutral-900 pb-3">
-            <a href={item.href} class="mobile-link text-white hover:text-amber-200 block py-1">
-              {item.name}
-            </a>
-          </li>
-        )
-      ))}
-    </ul>
-  </div>
 </header>
 
+<!-- Mobile Drawer Overlay -->
+<div
+  id="mobile-drawer"
+  transition:persist
+  class="fixed inset-0 h-[100dvh] w-full bg-neutral-950/98 backdrop-blur-2xl flex flex-col justify-start items-center opacity-0 pointer-events-none transition-all duration-300 md:hidden z-40 pt-28 pb-12 px-6 overflow-y-auto overscroll-contain outline-none"
+>
+  <ul class="flex flex-col items-center space-y-5 text-sm tracking-[0.25em] font-light w-full max-w-xs text-center">
+    {navLinks.map((item) => (
+      item.dropdown ? (
+        <li class="w-full flex flex-col items-center border-b border-neutral-900 pb-3">
+          <div class="flex items-center justify-center gap-2 w-full py-1">
+            <a href={item.href} class="mobile-link text-white hover:text-amber-200 outline-none focus:outline-none">
+              {item.name}
+            </a>
+            <button
+              type="button"
+              id="mobile-portfolio-toggle"
+              class="p-2 text-neutral-400 hover:text-white outline-none focus:outline-none cursor-pointer"
+              aria-label="Toggle Portfolio Submenu"
+            >
+              <svg id="mobile-portfolio-arrow" class="w-3.5 h-3.5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+          
+          <div id="mobile-portfolio-submenu" class="hidden flex-col space-y-3 pt-3 pb-2 w-full bg-neutral-900/40 border border-neutral-800/80 my-2">
+            {item.dropdown.map((subItem) => (
+              <a 
+                href={subItem.href} 
+                class="mobile-link text-neutral-400 hover:text-amber-200 text-xs tracking-[0.2em] py-1 block outline-none focus:outline-none"
+              >
+                {subItem.name}
+              </a>
+            ))}
+          </div>
+        </li>
+      ) : (
+        <li class="w-full border-b border-neutral-900 pb-3">
+          <a href={item.href} class="mobile-link text-white hover:text-amber-200 block py-1 outline-none focus:outline-none">
+            {item.name}
+          </a>
+        </li>
+      )
+    ))}
+  </ul>
+</div>
+
 <script>
-  const header = document.getElementById("site-header");
-  const menuBtn = document.getElementById("menu-btn");
-  const mobileDrawer = document.getElementById("mobile-drawer");
-  const lineTop = document.getElementById("line-top");
-  const lineMid = document.getElementById("line-mid");
-  const lineBot = document.getElementById("line-bot");
-  const mobileLinks = document.querySelectorAll(".mobile-link");
+  function initNav() {
+    const header = document.getElementById("site-header");
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileDrawer = document.getElementById("mobile-drawer");
+    const lineTop = document.getElementById("line-top");
+    const lineMid = document.getElementById("line-mid");
+    const lineBot = document.getElementById("line-bot");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
 
-  // Mobile Dropdown Accordion
-  const portfolioToggle = document.getElementById("mobile-portfolio-toggle");
-  const portfolioSubmenu = document.getElementById("mobile-portfolio-submenu");
-  const portfolioArrow = document.getElementById("mobile-portfolio-arrow");
+    const portfolioToggle = document.getElementById("mobile-portfolio-toggle");
+    const portfolioSubmenu = document.getElementById("mobile-portfolio-submenu");
+    const portfolioArrow = document.getElementById("mobile-portfolio-arrow");
 
-  portfolioToggle?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const isHidden = portfolioSubmenu?.classList.contains("hidden");
-    if (isHidden) {
-      portfolioSubmenu?.classList.remove("hidden");
-      portfolioSubmenu?.classList.add("flex");
-      portfolioArrow?.classList.add("rotate-180");
-    } else {
-      portfolioSubmenu?.classList.add("hidden");
-      portfolioSubmenu?.classList.remove("flex");
-      portfolioArrow?.classList.remove("rotate-180");
-    }
-  });
+    let isOpen = false;
 
-  // Dynamic Background shift on scroll
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 40) {
-      header?.classList.add("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
-      header?.classList.remove("py-4", "sm:py-5", "bg-transparent");
-    } else {
-      header?.classList.remove("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
-      header?.classList.add("py-4", "sm:py-5", "bg-transparent");
-    }
-  });
-
-  // Mobile Drawer Toggle
-  let isOpen = false;
-  function toggleMenu() {
-    isOpen = !isOpen;
-    if (isOpen) {
-      mobileDrawer?.classList.remove("opacity-0", "pointer-events-none");
-      mobileDrawer?.classList.add("opacity-100", "pointer-events-auto");
-      lineTop?.classList.add("rotate-45", "translate-y-2");
-      lineMid?.classList.add("opacity-0");
-      lineBot?.classList.add("-rotate-45", "-translate-y-2");
-      document.body.classList.add("overflow-hidden");
-    } else {
+    // Reset drawer state on new page navigation
+    function closeMenu() {
+      isOpen = false;
       mobileDrawer?.classList.add("opacity-0", "pointer-events-none");
       mobileDrawer?.classList.remove("opacity-100", "pointer-events-auto");
       lineTop?.classList.remove("rotate-45", "translate-y-2");
       lineMid?.classList.remove("opacity-0");
       lineBot?.classList.remove("-rotate-45", "-translate-y-2");
-      document.body.classList.remove("overflow-hidden");
+
+      document.documentElement.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden", "touch-none");
     }
+
+    portfolioToggle?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isHidden = portfolioSubmenu?.classList.contains("hidden");
+      if (isHidden) {
+        portfolioSubmenu?.classList.remove("hidden");
+        portfolioSubmenu?.classList.add("flex");
+        portfolioArrow?.classList.add("rotate-180");
+      } else {
+        portfolioSubmenu?.classList.add("hidden");
+        portfolioSubmenu?.classList.remove("flex");
+        portfolioArrow?.classList.remove("rotate-180");
+      }
+    });
+
+    // Check scroll state immediately upon navigation
+    function updateHeaderBackground() {
+      if (isOpen) return;
+      if (window.scrollY > 40) {
+        header?.classList.add("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
+        header?.classList.remove("py-4", "sm:py-5", "bg-transparent");
+      } else {
+        header?.classList.remove("bg-neutral-950/80", "backdrop-blur-md", "shadow-lg", "py-3");
+        header?.classList.add("py-4", "sm:py-5", "bg-transparent");
+      }
+    }
+
+    window.addEventListener("scroll", updateHeaderBackground, { passive: true });
+    updateHeaderBackground();
+
+    function toggleMenu() {
+      isOpen = !isOpen;
+      if (isOpen) {
+        mobileDrawer?.classList.remove("opacity-0", "pointer-events-none");
+        mobileDrawer?.classList.add("opacity-100", "pointer-events-auto");
+        lineTop?.classList.add("rotate-45", "translate-y-2");
+        lineMid?.classList.add("opacity-0");
+        lineBot?.classList.add("-rotate-45", "-translate-y-2");
+
+        document.documentElement.classList.add("overflow-hidden");
+        document.body.classList.add("overflow-hidden", "touch-none");
+      } else {
+        closeMenu();
+      }
+    }
+
+    menuBtn?.addEventListener("click", toggleMenu);
+    mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
   }
 
-  menuBtn?.addEventListener("click", toggleMenu);
-  mobileLinks.forEach((link) => link.addEventListener("click", toggleMenu));
+  initNav();
+  document.addEventListener("astro:page-load", initNav);
 </script>
