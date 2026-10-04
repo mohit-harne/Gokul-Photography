@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 
 interface Story {
   slug: string;
@@ -56,9 +57,11 @@ const stories: Story[] = [
       <article class={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-16`}>
         <!-- Cover Photo with Subtle Zoom on Hover -->
         <a href={`/stories/${story.slug}`} class="w-full md:w-1/2 overflow-hidden rounded-sm group block">
-          <img
+          <Image
             src={story.coverImage}
             alt={story.couple}
+            width={800}
+            height={600}
             loading="lazy"
             class="w-full h-[380px] sm:h-[460px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />

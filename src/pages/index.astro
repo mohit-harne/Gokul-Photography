@@ -159,7 +159,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
           href={item.link}
           class="group relative h-[420px] sm:h-[500px] overflow-hidden block border border-neutral-800/80 bg-neutral-900"
         >
-          <img
+          <Image
           width={600}
   height={800}
             src={item.image}
@@ -205,9 +205,11 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
       {latestStories.map((story) => (
         <article class="group space-y-4">
           <a href={story.link} class="block overflow-hidden h-80 sm:h-96 relative bg-neutral-900 border border-neutral-800/80">
-            <img
+            <Image
               src={story.image}
               alt={story.couple}
+              width={800}
+  height={600}
               loading="lazy"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
@@ -251,10 +253,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
             class="w-full h-full object-cover scale-[1.05]"
           ></iframe>
         ) : (
-          <img
+          <Image
             src={film.thumbnail}
             alt={film.couple}
             class="w-full h-full object-cover"
+            width={800}
+            height={600}
           />
         )}
       </div>
@@ -293,13 +297,13 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
   {Object.values(images).map(async (imagePromise, index) => {
-    const img = await imagePromise();
+    const Imageitem = await imagePromise();
     return (
       <div class="overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80">
         <Image
-        width={600}
-  height={800}
-          src={img.default}
+        width={800}
+  height={600}
+          src={Imageitem.default}
           alt={`Wedding moment ${index + 1}`}
           loading="lazy"
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-out"
@@ -330,6 +334,4 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
       </div>
     </div>
   </section>
-
- 
 </Layout>
