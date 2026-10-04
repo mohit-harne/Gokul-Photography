@@ -1,18 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
+import story1 from '../assets/stories/stories (1).jpg';
+import story2 from '../assets/stories/stories (2).jpg';
+import story3 from '../assets/stories/stories (3).jpg';
+import Wedding5 from '../assets/wedding/Wedding (5).jpg';
+import Prewedding8 from '../assets/pre_wedding/Pre-Wedding (8).jpg';
 // Portfolio highlights
 const portfolioCategories = [
   {
     title: "Weddings",
     subtitle: "Ceremonies & Celebrations",
-    image: "/src/assets/wedding/Wedding (5).jpg",
+    image: Wedding5,
     link: "/portfolio/weddings",
   },
   {
     title: "Pre-Weddings",
     subtitle: "Intimate Engagements",
-    image: "/src/assets/pre_wedding/Pre-Wedding (8).jpg",
+    image: Prewedding8,
     link: "/portfolio/pre-weddings",
   }
 ];
@@ -23,21 +28,21 @@ const latestStories = [
     couple: "Divya & Kashyap",
     location: "Nagpur",
     category: "Wedding",
-    image: "/src/assets/stories/stories (1).jpg",
+    image: story1,
     link: "/stories/divya-kashyap",
   },
   {
     couple: "Vrushali & Pruthviraj",
     location: "Pune",
     category: "Royal Wedding",
-    image: "/src/assets/stories/stories (2).jpg",
+    image: story2,
     link: "/stories/vrushali-pruthviraj",
   },
   {
     couple: "Tushar & Srishti",
     location: "Mumbai",
     category: "Destination Wedding",
-    image: "/src/assets/stories/stories (3).jpg",
+    image: story3,
     link: "/stories/tushar-srishti",
   }
 ];
@@ -63,10 +68,7 @@ const featuredFilms = [
 ];
 
 // Experience / Visual Gallery
-const imageModules = import.meta.glob('/src/assets/gallery/*.jpg', {
-  eager: true,
-  import: 'default',
-});
+
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing-page-gallery/*.jpg');
 ---
