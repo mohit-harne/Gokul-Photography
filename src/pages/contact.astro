@@ -3,34 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Contact & Inquiries | Gokul Studios">
-  <!-- Toast Notification (Top Center) -->
-  <div 
-    id="toastContainer" 
-    class="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md transition-all duration-300 pointer-events-none opacity-0 -translate-y-4"
-  >
-    <div 
-      id="toastBox" 
-      class="flex items-start justify-between gap-3 p-4 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 shadow-2xl text-xs sm:text-sm rounded-none pointer-events-auto"
-    >
-      <div class="flex items-start gap-3">
-        <span id="toastIcon" class="mt-0.5 text-base leading-none"></span>
-        <div>
-          <p id="toastTitle" class="font-serif tracking-wider uppercase text-xs font-semibold"></p>
-          <p id="toastMessage" class="text-neutral-400 font-light mt-0.5 text-xs leading-relaxed"></p>
-        </div>
-      </div>
-      <button 
-        type="button" 
-        id="toastClose" 
-        class="text-neutral-500 hover:text-white transition-colors p-1 leading-none text-base cursor-pointer"
-        aria-label="Close notification"
-      >
-        ✕
-      </button>
-    </div>
-  </div>
-
-  <!-- Header Section (Streamlined for immediate visibility) -->
+  <!-- Header Section -->
   <section class="pt-24 sm:pt-28 pb-6 px-5 sm:px-8 text-center max-w-4xl mx-auto space-y-2">
     <p class="text-[10px] sm:text-xs tracking-[0.3em] text-neutral-400 uppercase font-light">Get In Touch</p>
     <h1 class="text-2xl sm:text-4xl md:text-5xl font-serif text-white tracking-wide">
@@ -139,9 +112,9 @@ import Layout from '../layouts/Layout.astro';
             <button
               type="submit"
               id="submitBtn"
-              class="w-full border border-white px-8 py-3 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full border border-white px-8 py-3 text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
             >
-              Send Inquiry
+              Continue on WhatsApp
             </button>
           </div>
         </form>
@@ -150,7 +123,6 @@ import Layout from '../layouts/Layout.astro';
       <!-- Right Column: Studio Address & Dark Map -->
       <div class="lg:col-span-5 flex flex-col border border-neutral-800 bg-neutral-900/30 overflow-hidden">
         
-        <!-- Address Details Header -->
         <div class="p-5 sm:p-7 border-b border-neutral-800 space-y-4">
           <div>
             <span class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 font-light block mb-1">Gokul Studios</span>
@@ -171,26 +143,25 @@ import Layout from '../layouts/Layout.astro';
 
           <div>
             <a
-  href="https://www.google.com/maps/place/Gokul+Photography/@20.9457794,77.7667251,17z/data=!4m6!3m5!1s0x3bd6a37b00000015:0x2e7bda3dd0dac60d!8m2!3d20.9457794!4d77.7667251!16s%2Fg%2F11c5fz532b"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors border-b border-neutral-700 pb-0.5 hover:border-white"
->
+              href="https://www.google.com/maps/place/Gokul+Photography/@20.9457794,77.7667251,17z/data=!4m6!3m5!1s0x3bd6a37b00000015:0x2e7bda3dd0dac60d!8m2!3d20.9457794!4d77.7667251!16s%2Fg%2F11c5fz532b"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors border-b border-neutral-700 pb-0.5 hover:border-white"
+            >
               <span>Get Directions</span>
               <span>↗</span>
             </a>
           </div>
         </div>
 
-        <!-- Fully Symmetrical Dark Embedded Map -->
         <div class="flex-1 min-h-[260px] relative bg-neutral-950">
           <iframe
-  title="Gokul Studios Location Map"
-  src="https://maps.google.com/maps?q=20.9457794,77.7667251+(Gokul+Photography)&t=&z=17&ie=UTF8&iwloc=B&output=embed"
-  class="w-full h-full min-h-[260px] border-0 filter invert-[0.9] hue-rotate-180 contrast-[1.2] brightness-[0.85] opacity-85 hover:opacity-100 transition-opacity duration-300"
-  loading="lazy"
-  referrerpolicy="no-referrer-when-downgrade"
-></iframe>
+            title="Gokul Studios Location Map"
+            src="https://maps.google.com/maps?q=20.9457794,77.7667251+(Gokul+Photography)&t=&z=17&ie=UTF8&iwloc=B&output=embed"
+            class="w-full h-full min-h-[260px] border-0 filter invert-[0.9] hue-rotate-180 contrast-[1.2] brightness-[0.85] opacity-85 hover:opacity-100 transition-opacity duration-300"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
 
       </div>
@@ -201,83 +172,37 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   const form = document.getElementById('inquiryForm') as HTMLFormElement;
-  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
   
-  // Toast Elements
-  const toast = document.getElementById('toastContainer') as HTMLDivElement;
-  const toastBox = document.getElementById('toastBox') as HTMLDivElement;
-  const toastTitle = document.getElementById('toastTitle') as HTMLParagraphElement;
-  const toastMsg = document.getElementById('toastMessage') as HTMLParagraphElement;
-  const toastIcon = document.getElementById('toastIcon') as HTMLSpanElement;
-  const toastClose = document.getElementById('toastClose') as HTMLButtonElement;
+  // Target business WhatsApp number (country code + number, without '+' or spaces)
+  const STUDIO_WHATSAPP_NUMBER = '919370157780';
 
-  let toastTimer: ReturnType<typeof setTimeout> | null = null;
-
-  function showToast(type: 'success' | 'error', title: string, message: string) {
-    if (toastTimer) clearTimeout(toastTimer);
-
-    if (type === 'success') {
-      toastBox.className = 'flex items-start justify-between gap-3 p-4 bg-neutral-950/95 backdrop-blur-md border border-emerald-500/40 shadow-2xl text-xs sm:text-sm rounded-none pointer-events-auto';
-      toastTitle.className = 'font-serif tracking-wider uppercase text-xs font-semibold text-emerald-400';
-      toastIcon.textContent = '✓';
-      toastIcon.className = 'text-emerald-400 font-bold mt-0.5 text-sm';
-    } else {
-      toastBox.className = 'flex items-start justify-between gap-3 p-4 bg-neutral-950/95 backdrop-blur-md border border-rose-500/40 shadow-2xl text-xs sm:text-sm rounded-none pointer-events-auto';
-      toastTitle.className = 'font-serif tracking-wider uppercase text-xs font-semibold text-rose-400';
-      toastIcon.textContent = '✕';
-      toastIcon.className = 'text-rose-400 font-bold mt-0.5 text-sm';
-    }
-
-    toastTitle.textContent = title;
-    toastMsg.textContent = message;
-
-    // Slide and fade in
-    toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
-    toast.classList.add('opacity-100', 'translate-y-0');
-
-    toastTimer = setTimeout(hideToast, 5000);
-  }
-
-  function hideToast() {
-    toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
-    toast.classList.remove('opacity-100', 'translate-y-0');
-  }
-
-  toastClose?.addEventListener('click', hideToast);
-
-  form?.addEventListener('submit', async (e) => {
+  form?.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-
     const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const date = formData.get('date') as string;
+    const location = (formData.get('location') as string) || 'Not specified';
+    const service = formData.get('service') as string;
+    const details = (formData.get('details') as string) || 'None';
 
-    try {
-      const response = await fetch('/api/inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+    const message = [
+      `*New Inquiry - Gokul Studios*`,
+      `--------------------------------`,
+      `• *Names:* ${name}`,
+      `• *Email:* ${email}`,
+      `• *Client Phone:* ${phone}`,
+      `• *Event Date:* ${date}`,
+      `• *Location:* ${location}`,
+      `• *Service:* ${service}`,
+      `• *Details:* ${details}`
+    ].join('\n');
 
-      if (!response.ok) throw new Error('Submission failed');
-
-      form.reset();
-      showToast(
-        'success',
-        'Inquiry Sent',
-        'Thank you! Your inquiry has been delivered directly to our team on WhatsApp.'
-      );
-    } catch (err) {
-      showToast(
-        'error',
-        'Submission Error',
-        'Something went wrong while sending your inquiry. Please try again or reach out directly.'
-      );
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Inquiry';
-    }
+    const whatsappUrl = `https://wa.me/${STUDIO_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    
+    // Opens WhatsApp Web / App directly in a new tab with the prefilled draft
+    window.open(whatsappUrl, '_blank');
   });
 </script>

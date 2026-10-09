@@ -1,77 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import story1 from '../assets/stories/stories (1).jpg';
-import story2 from '../assets/stories/stories (2).jpg';
-import story3 from '../assets/stories/stories (3).jpg';
-import Wedding5 from '../assets/wedding/Wedding (5).jpg';
-import Wedding1 from '../assets/wedding/Wedding (1).jpg';
-import Prewedding8 from '../assets/pre_wedding/Pre-wedding (7).jpg';
+import { portfolioCategories, latestStories, featuredFilms, assets} from '../data/mediaData';
 
-// Portfolio highlights
-const portfolioCategories = [
-  {
-    index: "01",
-    title: "Weddings",
-    subtitle: "Ceremonies & Sacred Rites",
-    description: "Honest portraits and timeless memories captured in soft documentary light.",
-    image: Wedding5,
-    link: "/portfolio/wedding",
-  },
-  {
-    index: "02",
-    title: "Pre-Weddings",
-    subtitle: "Intimate Engagements",
-    description: "Quiet chemistry, scenic landscapes, and unscripted preludes to your vows.",
-    image: Prewedding8,
-    link: "/portfolio/pre-wedding",
-  }
-];
 
-// Latest Stories
-const latestStories = [
-  {
-    couple: "Divya & Kashyap",
-    location: "Nagpur",
-    category: "Wedding",
-    image: story1,
-    link: "/stories/divya-kashyap",
-  },
-  {
-    couple: "Vrushali & Pruthviraj",
-    location: "Pune",
-    category: "Royal Wedding",
-    image: story2,
-    link: "/stories/vrushali-pruthviraj",
-  },
-  {
-    couple: "Tushar & Srishti",
-    location: "Mumbai",
-    category: "Destination Wedding",
-    image: story3,
-    link: "/stories/tushar-srishti",
-  }
-];
-
-// Featured Films
-const featuredFilms = [
-  {
-    tag: "Lovebirds",
-    couple: "Pratik & Shrusti",
-    event: "Wedding Film",
-    description: "A love marriage is a beautiful union where two individuals choose each other based on mutual affection, deep friendship, and understanding.",
-    thumbnail: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1200&q=80",
-    videoId: "1t32XVVVCFw",
-  },
-  {
-    tag: "Soulmates",
-    couple: "Ankit & Aporva",
-    event: "Wedding Film",
-    description: "Love is the expansion of two natures in such fashion that each includes the other, and each is enriched by the other.",
-    thumbnail: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
-    videoId: "qU92sQZbnpk",
-  }
-];
 
 // Experience / Visual Gallery
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing-page-gallery/*.jpg');
@@ -107,7 +39,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
         style="-webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 75%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 75%, transparent 100%);"
       >
         <Image
-          src={Wedding1}
+          src={assets.wedding.Wedding1}
           alt="Wedding Philosophy Atmosphere"
           class="w-full h-full object-cover object-center opacity-30 filter brightness-[0.75] contrast-105"
           loading="lazy"
