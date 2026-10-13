@@ -1,9 +1,9 @@
-import story1 from '../assets/stories/stories (1).jpg';
-import story2 from '../assets/stories/stories (2).jpg';
-import story3 from '../assets/stories/stories (3).jpg';
-import Wedding1 from '../assets/wedding/Wedding (1).webp';
-import Wedding5 from '../assets/wedding/Wedding (5).webp';
-import Prewedding8 from '../assets/pre_wedding/pre wedding (7).webp';
+import story1 from '../assets/stories/story-1.jpg';
+import story2 from '../assets/stories/story-2.jpg';
+import story3 from '../assets/stories/story-3.jpg';
+import Wedding1 from '../assets/wedding/wedding-1.webp';
+import Wedding5 from '../assets/wedding/wedding-5.webp';
+import Prewedding8 from '../assets/pre_wedding/pre-wedding-7.webp';
 
 // Portfolio highlights
 export const portfolioCategories = [
