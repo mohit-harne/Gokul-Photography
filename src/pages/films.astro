@@ -3,69 +3,58 @@ import Layout from '../layouts/Layout.astro';
 
 const films = [
   {
-    id: "e0XpGiAP7h0",
+    id: "2ib3KfJI3bs",
     title: "Echoes of Udaipur — Rhea & Kabir",
     location: "The Oberoi Udaivilas, Udaipur",
     tagline: "Royal Heritage & Palace Courtyard Vows",
     duration: "4:48",
-    year: "2025",
-    embedUrl: "https://www.youtube.com/watch?v=e0XpGiAP7h0",
-    poster: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80"
+    year: "2025"
   },
   {
-    id: "lxTdlaQfHpA",
+    id: "aIEv4MzK-xE",
     title: "Sands & Salt Air — Tanisha & Arman",
     location: "Ashvem Beach, Goa",
     tagline: "Sunset Coastal Nuptials",
     duration: "5:14",
-    year: "2025",
-    embedUrl: "https://www.youtube.com/watch?v=lxTdlaQfHpA",
-    poster: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80"
+    year: "2025"
   },
   {
-    id: "vIRb2bvlvA0",
+    id: "yj9RdAPEMYs",
     title: "A Fort Lit in Gold — Sanjana & Neil",
     location: "Suryagarh, Jaisalmer",
     tagline: "Desert Fortresses & Amber Lanterns",
     duration: "6:05",
-    year: "2025",
-    embedUrl: "https://www.youtube.com/watch?v=vIRb2bvlvA0",
-    poster: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80"
+    year: "2025"
   },
   {
-    id: "kJQP7kiw5Fk",
+    id: "JfcNMmptY48",
     title: "Mist & Wild Orchids — Ananya & Dev",
     location: "Windflower Hall, Shimla",
     tagline: "Pine Forest Reverie & Alpine Whispers",
     duration: "5:42",
-    year: "2024",
-    embedUrl: "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-    poster: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80"
+    year: "2024"
   },
   {
-    id: "3JZ_D3ELwOQ",
+    id: "m0_Hmj-QB30",
     title: "The Backwater Vows — Meera & Siddharth",
     location: "Kumarakom, Kerala",
     tagline: "Tranquil Canals & Traditional Temple Rites",
     duration: "7:12",
-    year: "2024",
-    embedUrl: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
-    poster: "https://images.unsplash.com/photo-1544077960-604201fe74bc?auto=format&fit=crop&w=1200&q=80"
+    year: "2024"
   },
   {
-    id: "L_LUpnjgPso",
+    id: "MQhZ2ydj9E0",
     title: "Crimson Haveli — Diya & Aarav",
     location: "Samode Palace, Jaipur",
     tagline: "Fresco Walls & Twilight Fireworks",
     duration: "4:30",
-    year: "2024",
-    embedUrl: "https://www.youtube.com/watch?v=L_LUpnjgPso",
-    poster: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80"
+    year: "2024"
   }
 ];
 
-function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
-  return `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&mute=${mute}&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&cc_load_policy=3&cc_lang_pref=`;
+// Generates looping, muted background preview streams that satisfy browser autoplay policies
+function getYouTubeBackgroundUrl(videoId: string) {
+  return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`;
 }
 ---
 
@@ -73,9 +62,9 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
   <!-- Editorial Page Intro -->
   <section class="pt-36 sm:pt-44 pb-14 px-6 md:px-12 text-center max-w-4xl mx-auto space-y-4">
     <div class="flex items-center justify-center gap-3">
-      <span class="h-[1px] w-8 bg-amber-200/40"></span>
+      <span class="h-px w-8 bg-amber-200/40"></span>
       <p class="text-[10px] tracking-[0.35em] text-neutral-400 uppercase font-light">Cinema Portfolio</p>
-      <span class="h-[1px] w-8 bg-amber-200/40"></span>
+      <span class="h-px w-8 bg-amber-200/40"></span>
     </div>
 
     <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide font-light">
@@ -91,19 +80,18 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
     </div>
   </section>
 
-  <!-- Spotlight Feature Film: Live Autoplay Showcase -->
+  <!-- Spotlight Feature Film: Hero Autoplay Showcase -->
   <section class="max-w-6xl mx-auto px-4 sm:px-8 md:px-12 pb-20">
     <div 
-      class="film-card group relative aspect-[16/9] sm:aspect-[21/9] w-full overflow-hidden rounded-none bg-neutral-950 border border-neutral-800/90 shadow-2xl cursor-pointer"
+      class="film-card group relative aspect-video sm:aspect-21/9 w-full overflow-hidden rounded-none bg-neutral-950 border border-neutral-800/90 shadow-2xl cursor-pointer"
       data-video-id={films[0].id}
       data-title={films[0].title}
-      data-location={films[0].location}
     >
-      <!-- Background Autoplaying Iframe for the Hero Only -->
+      <!-- Background Autoplaying Iframe -->
       <iframe
-        src={getYouTubeEmbedUrl(films[0].id, 1, 1)}
+        src={getYouTubeBackgroundUrl(films[0].id)}
         title={films[0].title}
-        class="yt-film-frame absolute inset-0 w-full h-full pointer-events-none scale-105 opacity-90 transition-transform duration-1000 group-hover:scale-110"
+        class="absolute inset-0 w-full h-full pointer-events-none scale-105 opacity-90 transition-transform duration-1000 group-hover:scale-110"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         loading="eager"
       ></iframe>
@@ -117,7 +105,7 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
       <!-- Architectural Accent Frame -->
       <div class="absolute inset-4 sm:inset-6 pointer-events-none border border-amber-200/0 group-hover:border-amber-200/30 transition-all duration-700"></div>
 
-      <!-- Play Trigger Pill (Center-Right or Center) -->
+      <!-- Play Trigger Pill -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/30 backdrop-blur-md bg-black/40 flex items-center justify-center text-white/90 group-hover:scale-110 group-hover:bg-amber-100 group-hover:text-black group-hover:border-amber-200 transition-all duration-500 shadow-2xl">
           <svg class="w-6 h-6 sm:w-7 sm:h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
@@ -145,7 +133,7 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
     </div>
   </section>
 
-  <!-- Curated Catalog Section: Lazy-loaded Facades (Zero Initial Buffering) -->
+  <!-- Curated Catalog Section: Autoplaying Grid Cards -->
   <section class="max-w-6xl mx-auto px-4 sm:px-8 md:px-12 pb-32">
     <div class="flex items-center justify-between pb-8 border-b border-neutral-900">
       <div>
@@ -161,40 +149,36 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
           class="film-card group cursor-pointer space-y-4 opacity-0 translate-y-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
           data-video-id={film.id}
           data-title={film.title}
-          data-location={film.location}
           style={`transition-delay: ${index * 120}ms;`}
         >
-          <!-- Video Poster Container -->
+          <!-- Video Container with Autoplaying Iframe -->
           <div class="relative aspect-video overflow-hidden rounded-none bg-neutral-950 border border-neutral-900 shadow-xl">
-            <!-- Shimmer Placeholder Skeleton -->
-            <div class="skeleton absolute inset-0 bg-neutral-900 overflow-hidden pointer-events-none z-0">
-              <div class="w-full h-full bg-gradient-to-r from-transparent via-neutral-800/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
-            </div>
-
-            <!-- Poster Image Facade (Zero YouTube Bandwidth until clicked) -->
-            <img
-              src={film.poster}
-              alt={film.title}
+            <!-- Autoplaying Video -->
+            <iframe
+              src={getYouTubeBackgroundUrl(film.id)}
+              title={film.title}
+              class="absolute inset-0 w-full h-full pointer-events-none scale-105 opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               loading="lazy"
-              decoding="async"
-              class="relative z-10 w-full h-full object-cover opacity-85 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
-              onload="this.previousElementSibling?.remove();"
-            />
+            ></iframe>
+
+            <!-- Subtle Vignette Overlay -->
+            <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
             <!-- Architectural Inner Frame -->
             <div class="absolute inset-3 z-20 pointer-events-none border border-amber-200/0 group-hover:border-amber-200/30 transition-all duration-500 scale-95 group-hover:scale-100"></div>
 
-            <!-- Minimal Monospace Index (Top Left) -->
-            <span class="absolute top-3 left-3 z-20 text-[9px] tracking-[0.25em] font-mono text-neutral-400 bg-black/60 px-2 py-0.5 border border-white/5 backdrop-blur-sm">
+            <!-- Monospace Index Badge -->
+            <span class="absolute top-3 left-3 z-20 text-[9px] tracking-[0.25em] font-mono text-neutral-300 bg-black/70 px-2 py-0.5 border border-white/10 backdrop-blur-sm">
               № 0{index + 2}
             </span>
 
-            <!-- Duration Badge (Bottom Right) -->
+            <!-- Duration Badge -->
             <span class="absolute bottom-3 right-3 z-20 text-[10px] tracking-widest font-mono text-neutral-300 bg-black/80 px-2 py-1 border border-neutral-800 backdrop-blur-sm">
               {film.duration}
             </span>
 
-            <!-- Minimal Circular Play Button Icon -->
+            <!-- Circular Play Button (Click to Open Theater Modal with Audio) -->
             <div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
               <div class="w-12 h-12 rounded-full border border-white/40 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-amber-100 group-hover:text-black group-hover:border-amber-200 transition-all duration-300 shadow-lg">
                 <svg class="w-4 h-4 fill-current translate-x-0.5" viewBox="0 0 24 24">
@@ -210,9 +194,9 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
               <span>{film.location}</span>
               <span class="font-mono text-neutral-500">{film.year}</span>
             </div>
-            <h4 class="text-xl font-serif text-white font-light group-hover:text-amber-100/90 transition-colors">
+            <h3 class="text-xl font-serif text-white font-light group-hover:text-amber-100/90 transition-colors">
               {film.title}
-            </h4>
+            </h3>
             <p class="text-xs text-neutral-500 font-light italic">
               {film.tagline}
             </p>
@@ -288,12 +272,6 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
 </Layout>
 
 <style>
-  @keyframes shimmer {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
   .film-card.revealed {
     opacity: 1 !important;
     transform: translateY(0) !important;
@@ -310,7 +288,7 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
     const closeBtn = document.getElementById('close-cinema-modal');
     const fullscreenBtn = document.getElementById('modal-fullscreen-btn');
 
-    // 1. Staggered Scroll-Upslide Animation
+    // Reveal animations on scroll
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -325,12 +303,11 @@ function getYouTubeEmbedUrl(videoId: string, autoplay = 1, mute = 1) {
 
     cards.forEach((card) => observer.observe(card));
 
-    // 2. Open Theater Player with Unmuted Audio
+    // Open lightbox with audio enabled on click
     function openCinema(videoId: string, title: string) {
       if (!modal || !modalIframe || !modalBox) return;
 
-      // Autoplay with audio on user click
-      modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+      modalIframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
       
       if (modalTitle) modalTitle.textContent = title;
 

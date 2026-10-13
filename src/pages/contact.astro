@@ -15,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Main Content: Side-by-Side Form & Studio Map Section -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-8 pb-16">
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
       
       <!-- Left Column: Form -->
@@ -141,7 +141,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div>
+          <div class="flex items-center gap-6 pt-1">
             <a
               href="https://www.google.com/maps/place/Gokul+Photography/@20.9457794,77.7667251,17z/data=!4m6!3m5!1s0x3bd6a37b00000015:0x2e7bda3dd0dac60d!8m2!3d20.9457794!4d77.7667251!16s%2Fg%2F11c5fz532b"
               target="_blank"
@@ -149,6 +149,16 @@ import Layout from '../layouts/Layout.astro';
               class="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors border-b border-neutral-700 pb-0.5 hover:border-white"
             >
               <span>Get Directions</span>
+              <span>↗</span>
+            </a>
+
+            <a
+              href="https://g.page/r/CQ3G2tA92nsuEBE/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-neutral-400 hover:text-amber-300 transition-colors border-b border-neutral-700 pb-0.5 hover:border-amber-300"
+            >
+              <span>★ Review on Google</span>
               <span>↗</span>
             </a>
           </div>
@@ -166,6 +176,45 @@ import Layout from '../layouts/Layout.astro';
 
       </div>
 
+    </div>
+  </section>
+
+  <!-- Client Feedback & Review Callout -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pb-20">
+    <div class="border border-neutral-800 bg-neutral-900/30 p-6 sm:p-10 text-center relative overflow-hidden">
+      <!-- Subtle ambient glow -->
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-32 bg-amber-500/5 blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-2xl mx-auto space-y-4 relative z-10">
+        <!-- Star rating presentation -->
+        <div class="flex justify-center items-center gap-1.5 text-amber-400 text-sm tracking-widest">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+
+        <p class="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-neutral-400 font-light">
+          Your Words Mean The World To Us
+        </p>
+
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-serif text-white tracking-wide">
+          Have We Captured Your Special Moments?
+        </h2>
+
+        <p class="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed">
+          Your feedback inspires our craft and helps future couples discover our studio. If you loved your experience with Gokul Studios, please take a moment to share your review on Google.
+        </p>
+
+        <div class="pt-3">
+          <a
+            href="https://g.page/r/CQ3G2tA92nsuEBE/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border border-neutral-600 px-6 sm:px-8 py-3 text-xs tracking-[0.25em] uppercase text-white hover:border-white hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer"
+          >
+            <span>Write A Google Review</span>
+            <span class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>

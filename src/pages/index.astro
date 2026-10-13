@@ -1,12 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import { portfolioCategories, latestStories, featuredFilms, assets} from '../data/mediaData';
-
-
+import { portfolioCategories, latestStories, featuredFilms, assets } from '../data/mediaData';
 
 // Experience / Visual Gallery
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing-page-gallery/*.jpg');
+
+// Featured Reels Data (Replace video URLs with your MP4 assets / CDN URLs and add real Instagram links)
+const studioReels = [
+  {
+    id: 'reel-1',
+    couple: 'Pooja & Rohan',
+    caption: 'Pure emotion during the varmala ceremony ✨',
+    views: '42.5K',
+    videoSrc: '/reels/reel-1.mp4', // Local public folder or remote CDN MP4
+    poster: '/reels/poster-1.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/DBtbNpbobU0/',
+  },
+  {
+    id: 'reel-2',
+    couple: 'Ananya & Kabir',
+    caption: 'Golden hour portraits in the palace courtyards 🌅',
+    views: '28.1K',
+    videoSrc: '/reels/reel-2.mp4',
+    poster: '/reels/poster-2.jpg',
+    instagramUrl: 'https://www.instagram.com/reels/',
+  },
+  {
+    id: 'reel-3',
+    couple: 'Snehal & Aditya',
+    caption: 'The unforgettable baraat energy & raw joy 🥁',
+    views: '54.9K',
+    videoSrc: '/reels/reel-3.mp4',
+    poster: '/reels/poster-3.jpg',
+    instagramUrl: 'https://www.instagram.com/reels/',
+  },
+  {
+    id: 'reel-4',
+    couple: 'Meera & Siddharth',
+    caption: 'Cinematic bridal entry under the phoolon ki chaadar 🌸',
+    views: '36.8K',
+    videoSrc: '/reels/reel-4.mp4',
+    poster: '/reels/poster-4.jpg',
+    instagramUrl: 'https://www.instagram.com/reels/',
+  },
+  {
+    id: 'reel-5',
+    couple: 'Tanvi & Harsh',
+    caption: 'Subtle promises & intimate vows under the twilight 🌙',
+    views: '19.4K',
+    videoSrc: '/reels/reel-5.mp4',
+    poster: '/reels/poster-5.jpg',
+    instagramUrl: 'https://www.instagram.com/reels/',
+  },
+];
 ---
 
 <Layout>
@@ -16,7 +63,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
       <!-- 1. Hero Video: Covers viewport, feather-dissolves at the bottom -->
       <div 
-        class="absolute inset-x-0 top-0 h-[100dvh]"
+        class="absolute inset-x-0 top-0 h-dvh"
         style="-webkit-mask-image: linear-gradient(to bottom, black 0%, black 65%, transparent 100%); mask-image: linear-gradient(to bottom, black 0%, black 65%, transparent 100%);"
       >
         <video
@@ -39,7 +86,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
         style="-webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 75%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 75%, transparent 100%);"
       >
         <Image
-          src={assets.wedding.Wedding1}
+          src={assets.wedding.Wedding5}
           alt="Wedding Philosophy Atmosphere"
           class="w-full h-full object-cover object-center opacity-30 filter brightness-[0.75] contrast-105"
           loading="lazy"
@@ -49,13 +96,13 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
     </div>
 
     <!-- Hero Content -->
-    <section class="relative z-10 min-h-[100dvh] w-full flex items-center justify-center text-center px-4 max-w-4xl mx-auto space-y-6">
+    <section class="relative z-10 min-h-dvh w-full flex items-center justify-center text-center px-4 max-w-4xl mx-auto space-y-6">
       <div class="space-y-6 pt-16">
         <p class="text-xs md:text-sm tracking-[0.35em] text-neutral-300 uppercase font-light drop-shadow">
           Cinematic Wedding Films & Photography
         </p>
         <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-light text-white leading-tight drop-shadow-md">
-          Your <span class="font-['Alex_Brush'] text-5xl sm:text-7xl md:text-8xl text-amber-100/90 font-normal capitalize inline-block px-1">love story</span>, framed by Gokul Studios
+          Your <span class="font-['Alex_Brush'] text-5xl sm:text-7xl md:text-8xl text-amber-100/90 font-normal capitalize inline-block px-1">love story</span>, framed by Gokul Photography
         </h1>
         <div class="pt-4">
           <a
@@ -98,11 +145,11 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
     </section>
 
     <!-- Quote & Philosophy Section -->
-    <section id="philosophy" class="relative z-10 pt-12 pb-28 sm:pt-16 sm:pb-36 px-6 md:px-12 max-w-4xl mx-auto text-center space-y-8">
+    <section id="philosophy" class="relative z-10 pt-12 pb-20 sm:pt-16 sm:pb-24 px-6 md:px-12 max-w-4xl mx-auto text-center space-y-8">
       <div class="flex items-center justify-center gap-3">
-        <span class="h-[1px] w-6 bg-amber-200/40"></span>
+        <span class="h-px w-6 bg-amber-200/40"></span>
         <span class="text-xs uppercase tracking-[0.35em] text-neutral-300 font-light">Our Philosophy</span>
-        <span class="h-[1px] w-6 bg-amber-200/40"></span>
+        <span class="h-px w-6 bg-amber-200/40"></span>
       </div>
 
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif italic text-white font-light leading-relaxed drop-shadow-md">
@@ -119,14 +166,137 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
     </section>
   </div>
 
+  <!-- ===================================================================== -->
+  <!-- Auto-Playing Instagram Reels Section (Horizontal Scrollable Cards)  -->
+  <!-- ===================================================================== -->
+  <section class="relative py-16 sm:py-24 bg-neutral-950 border-t border-neutral-900/80 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 mb-8 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+          <span class="text-[10px] tracking-[0.35em] uppercase text-neutral-400 font-light">Reels & Moments</span>
+        </div>
+        <h3 class="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-white tracking-wide">
+          Captured In Motion <span class="italic font-normal text-amber-100/90">& Live Energy</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-lg">
+          Unscripted glimpses, intimate vows, and royal celebrations straight from our studio lens.
+        </p>
+      </div>
+
+      <!-- Controls: Carousel arrows & Instagram follow link -->
+      <div class="flex items-center gap-4">
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-neutral-300 hover:text-white border-b border-neutral-700 hover:border-white pb-1 transition-colors"
+        >
+          <span>Follow @gokulphotography</span>
+          <span>↗</span>
+        </a>
+        <div class="hidden sm:flex items-center gap-2">
+          <button
+            id="reelsPrevBtn"
+            aria-label="Scroll reels left"
+            class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
+          >
+            &#8592;
+          </button>
+          <button
+            id="reelsNextBtn"
+            aria-label="Scroll reels right"
+            class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
+          >
+            &#8594;
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reels Horizontal Scroll Track -->
+    <div
+      id="reelsTrack"
+      class="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-8 max-w-7xl mx-auto pb-4 cursor-grab active:cursor-grabbing select-none"
+      style="scroll-snap-type: x mandatory;"
+    >
+      {studioReels.map((reel) => (
+        <div
+          class="reel-card group relative flex-none w-[260px] sm:w-[290px] aspect-[9/16] rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800/80 shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
+          style="scroll-snap-align: start;"
+        >
+          <!-- Video Element (Autoplays silently when visible) -->
+          <video
+            class="reel-video w-full h-full object-cover transition-opacity duration-500"
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            poster={reel.poster}
+          >
+            <source src={reel.videoSrc} type="video/mp4" />
+          </video>
+
+          <!-- Top Gradient & Badges (Reel Tag & Mute Control) -->
+          <div class="absolute inset-x-0 top-0 p-3 sm:p-4 bg-gradient-to-b from-black/80 via-black/30 to-transparent z-20 flex items-center justify-between pointer-events-none">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] tracking-widest uppercase text-white font-mono">
+              <svg class="w-3 h-3 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              <span>{reel.views}</span>
+            </span>
+
+            <button
+              type="button"
+              class="mute-toggle-btn pointer-events-auto p-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white/80 hover:text-white hover:bg-black/90 transition-all cursor-pointer"
+              title="Mute / Unmute"
+            >
+              <svg class="w-3.5 h-3.5 mute-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Bottom Gradient Scrim & Content Info -->
+          <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black via-black/65 to-transparent z-20 flex flex-col justify-end space-y-2 pointer-events-none">
+            <h4 class="text-sm font-serif text-white tracking-wide font-normal group-hover:text-amber-100 transition-colors">
+              {reel.couple}
+            </h4>
+            <p class="text-[11px] text-neutral-300 font-light line-clamp-2 leading-relaxed">
+              {reel.caption}
+            </p>
+
+            <a
+              href={reel.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="pointer-events-auto inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-amber-200/90 hover:text-amber-100 pt-1 transition-colors"
+            >
+              <span>Watch on Instagram</span>
+              <span>↗</span>
+            </a>
+          </div>
+
+          <!-- Subtle Play pulse icon on center -->
+          <div class="play-state-indicator absolute inset-0 m-auto w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-30">
+            <svg class="w-5 h-5 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
   <!-- Category Showcase: Telling Your Story Through Beautiful Imagery -->
   <section class="relative py-28 sm:py-36 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto overflow-hidden">
     <!-- Section Header -->
     <div class="text-center mb-16 sm:mb-20 space-y-4">
       <div class="flex items-center justify-center gap-3">
-        <span class="h-[1px] w-8 bg-amber-200/40"></span>
+        <span class="h-px w-8 bg-amber-200/40"></span>
         <span class="text-[10px] tracking-[0.35em] text-neutral-400 uppercase font-light">Curated Collections</span>
-        <span class="h-[1px] w-8 bg-amber-200/40"></span>
+        <span class="h-px w-8 bg-amber-200/40"></span>
       </div>
 
       <h3 class="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-white tracking-wide">
@@ -147,7 +317,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
       {portfolioCategories.map((item, idx) => (
         <a
           href={item.link}
-          class="portfolio-showcase-card group relative h-[480px] sm:h-[580px] overflow-hidden block bg-neutral-950 border border-neutral-900 shadow-2xl opacity-0 translate-y-16 scale-[0.97] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+          class="portfolio-showcase-card group relative h-120 sm:h-145 overflow-hidden block bg-neutral-950 border border-neutral-900 shadow-2xl opacity-0 translate-y-16 scale-[0.97] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
           style={`transition-delay: ${idx * 160}ms;`}
         >
           <!-- Image -->
@@ -158,7 +328,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
             height={1200}
             loading="lazy"
             decoding="async"
-            class="w-full h-full object-cover object-center grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
+            class="w-full h-full object-cover object-center grayscale-15 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
           />
 
           <!-- Gradient Scrim for Content Readability -->
@@ -186,7 +356,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
 
           <!-- Content Card Details (Bottom) -->
           <div class="absolute inset-x-0 bottom-0 p-8 sm:p-10 z-20 flex flex-col justify-end space-y-3 transform transition-transform duration-500">
-            <div class="w-6 h-[1px] bg-amber-200/60 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+            <div class="w-6 h-px bg-amber-200/60 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
 
             <p class="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-neutral-400 font-light">
               {item.subtitle}
@@ -329,7 +499,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
       {Object.values(images).map(async (imagePromise, index) => {
         const Imageitem = await imagePromise();
         return (
-          <div class="overflow-hidden aspect-[3/4] bg-neutral-900 border border-neutral-800/80">
+          <div class="overflow-hidden aspect-3/4 bg-neutral-900 border border-neutral-800/80">
             <Image
               width={800}
               height={600}
@@ -345,7 +515,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
   </section>
 
   <!-- Call To Action -->
-  <section class="py-24 px-6 md:px-12 text-center bg-gradient-to-b from-transparent via-neutral-950/80 to-black border-t border-neutral-900 space-y-8">
+  <section class="py-24 px-6 md:px-12 text-center bg-linear-to-b from-transparent via-neutral-950/80 to-black border-t border-neutral-900 space-y-8">
     <div class="max-w-3xl mx-auto space-y-6">
       <p class="text-xs uppercase tracking-[0.35em] text-neutral-400">Commitment</p>
       <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-wide uppercase leading-tight">
@@ -367,6 +537,15 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
 </Layout>
 
 <style>
+  /* Hide scrollbar for standard browsers */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Smooth reveal target state for cards */
   .portfolio-showcase-card.revealed {
     opacity: 1 !important;
@@ -375,9 +554,97 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
 </style>
 
 <script>
-  function setupIndexScrollAnimations() {
-    const cards = document.querySelectorAll<HTMLElement>('.portfolio-showcase-card');
+  function setupReelsAndInteractions() {
+    // 1. Reel Cards Autoplay on Intersection
+    const videos = document.querySelectorAll<HTMLVideoElement>('.reel-video');
 
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    videos.forEach((video) => videoObserver.observe(video));
+
+    // 2. Mute/Unmute Toggles
+    const muteButtons = document.querySelectorAll<HTMLButtonElement>('.mute-toggle-btn');
+    muteButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.reel-card');
+        const video = card?.querySelector<HTMLVideoElement>('.reel-video');
+        if (!video) return;
+
+        video.muted = !video.muted;
+
+        if (video.muted) {
+          btn.innerHTML = `
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          `;
+        } else {
+          btn.innerHTML = `
+            <svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+          `;
+        }
+      });
+    });
+
+    // 3. Play/Pause toggle on clicking the card
+    const reelCards = document.querySelectorAll<HTMLElement>('.reel-card');
+    reelCards.forEach((card) => {
+      card.addEventListener('click', (e) => {
+        // Prevent action if clicking the mute button or external link
+        if ((e.target as HTMLElement).closest('.mute-toggle-btn') || (e.target as HTMLElement).closest('a')) {
+          return;
+        }
+
+        const video = card.querySelector<HTMLVideoElement>('.reel-video');
+        const indicator = card.querySelector<HTMLElement>('.play-state-indicator');
+        if (!video) return;
+
+        if (video.paused) {
+          video.play();
+          if (indicator) {
+            indicator.style.opacity = '0';
+          }
+        } else {
+          video.pause();
+          if (indicator) {
+            indicator.style.opacity = '1';
+          }
+        }
+      });
+    });
+
+    // 4. Horizontal Arrow Navigation
+    const track = document.getElementById('reelsTrack');
+    const prevBtn = document.getElementById('reelsPrevBtn');
+    const nextBtn = document.getElementById('reelsNextBtn');
+
+    if (track && prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -320, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: 320, behavior: 'smooth' });
+      });
+    }
+
+    // 5. Existing Portfolio Scroll Animations
+    const cards = document.querySelectorAll<HTMLElement>('.portfolio-showcase-card');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -396,6 +663,6 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
     cards.forEach((card) => observer.observe(card));
   }
 
-  setupIndexScrollAnimations();
-  document.addEventListener('astro:page-load', setupIndexScrollAnimations);
+  setupReelsAndInteractions();
+  document.addEventListener('astro:page-load', setupReelsAndInteractions);
 </script>
