@@ -2,6 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { portfolioCategories, latestStories, featuredFilms, assets } from '../data/mediaData';
+import Reel1 from "../assets/reels/Reel1.mp4";
+import Reel2 from "../assets/reels/Reel2.mp4";
+import Reel3 from "../assets/reels/Reel3.mp4";
+import Reel4 from "../assets/reels/Reel4.mp4";
+import Reel5 from "../assets/reels/Reel5.mp4";
 
 // Experience / Visual Gallery
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing-page-gallery/*.jpg');
@@ -16,7 +21,7 @@ const studioReels = [
     likes: '42.5K',
     comments: '418',
     shares: '2.1K',
-    videoSrc: '/src/assets/reels/Reel1.mp4',
+    videoSrc: Reel1,
     poster: '/reels/poster-1.jpg',
     instagramUrl: 'https://www.instagram.com/reel/DEDDPnKSqtX/',
     audio: '_gokulphotography • Original audio'
@@ -29,7 +34,7 @@ const studioReels = [
     likes: '28.1K',
     comments: '290',
     shares: '1.4K',
-    videoSrc: '/src/assets/reels/Reel2.mp4',
+    videoSrc: Reel2,
     poster: '/reels/poster-2.jpg',
     instagramUrl: 'https://www.instagram.com/reel/DU5cvM-jOxr/',
     audio: 'Trending Audio • Royal Shehnai'
@@ -42,7 +47,7 @@ const studioReels = [
     likes: '54.9K',
     comments: '632',
     shares: '4.8K',
-    videoSrc: '/src/assets/reels/Reel3.mp4',
+    videoSrc: Reel3,
     poster: '/reels/poster-3.jpg',
     instagramUrl: 'https://www.instagram.com/reel/DBtbNpbobU0/',
     audio: '_gokulphotography • Original audio'
@@ -55,7 +60,7 @@ const studioReels = [
     likes: '36.8K',
     comments: '354',
     shares: '1.9K',
-    videoSrc: '/src/assets/reels/Reel4.mp4',
+    videoSrc: Reel4,
     poster: '/reels/poster-4.jpg',
     instagramUrl: 'https://www.instagram.com/reel/DeUOu-OMjhq/',
     audio: 'Kudmayi • Instrumental'
@@ -68,7 +73,7 @@ const studioReels = [
     likes: '19.4K',
     comments: '188',
     shares: '940',
-    videoSrc: '/src/assets/reels/Reel5.mp4',
+    videoSrc: Reel5,
     poster: '/reels/poster-5.jpg',
     instagramUrl: 'https://www.instagram.com/reel/DdoT_6GsGir/',
     audio: '_gokulphotography • Original audio'
