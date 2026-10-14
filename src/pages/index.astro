@@ -10,48 +10,68 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/landing
 const studioReels = [
   {
     id: 'reel-1',
-    couple: 'Pooja & Rohan',
-    caption: 'Pure emotion during the varmala ceremony ✨',
-    views: '42.5K',
-    videoSrc: '/reels/reel-1.mp4', // Local public folder or remote CDN MP4
+    couple: 'Sushant & Smriti',
+    caption: 'Sushant & Smriti ✨ Not just a wedding, a legacy in the making.',
+    location: 'Amaravati, Maharashtra, India',
+    likes: '42.5K',
+    comments: '418',
+    shares: '2.1K',
+    videoSrc: '/src/assets/reels/Reel1.mp4',
     poster: '/reels/poster-1.jpg',
-    instagramUrl: 'https://www.instagram.com/reel/DBtbNpbobU0/',
+    instagramUrl: 'https://www.instagram.com/reel/DEDDPnKSqtX/',
+    audio: '_gokulphotography • Original audio'
   },
   {
     id: 'reel-2',
-    couple: 'Ananya & Kabir',
-    caption: 'Golden hour portraits in the palace courtyards 🌅',
-    views: '28.1K',
-    videoSrc: '/reels/reel-2.mp4',
+    couple: 'Frames of Royalty',
+    caption: 'Frames soaked in love, rituals & royalty 👑',
+    location: 'Amaravati, Maharashtra, India',
+    likes: '28.1K',
+    comments: '290',
+    shares: '1.4K',
+    videoSrc: '/src/assets/reels/Reel2.mp4',
     poster: '/reels/poster-2.jpg',
-    instagramUrl: 'https://www.instagram.com/reels/',
+    instagramUrl: 'https://www.instagram.com/reel/DU5cvM-jOxr/',
+    audio: 'Trending Audio • Royal Shehnai'
   },
   {
     id: 'reel-3',
-    couple: 'Snehal & Aditya',
-    caption: 'The unforgettable baraat energy & raw joy 🥁',
-    views: '54.9K',
-    videoSrc: '/reels/reel-3.mp4',
+    couple: 'Preserved Forever',
+    caption: 'Shot with heart, preserved forever 🤍',
+    location: 'Amaravati, Maharashtra, India',
+    likes: '54.9K',
+    comments: '632',
+    shares: '4.8K',
+    videoSrc: '/src/assets/reels/Reel3.mp4',
     poster: '/reels/poster-3.jpg',
-    instagramUrl: 'https://www.instagram.com/reels/',
+    instagramUrl: 'https://www.instagram.com/reel/DBtbNpbobU0/',
+    audio: '_gokulphotography • Original audio'
   },
   {
     id: 'reel-4',
     couple: 'Meera & Siddharth',
     caption: 'Cinematic bridal entry under the phoolon ki chaadar 🌸',
-    views: '36.8K',
-    videoSrc: '/reels/reel-4.mp4',
+    location: 'Amaravati, Maharashtra, India',
+    likes: '36.8K',
+    comments: '354',
+    shares: '1.9K',
+    videoSrc: '/src/assets/reels/Reel4.mp4',
     poster: '/reels/poster-4.jpg',
-    instagramUrl: 'https://www.instagram.com/reels/',
+    instagramUrl: 'https://www.instagram.com/reel/DeUOu-OMjhq/',
+    audio: 'Kudmayi • Instrumental'
   },
   {
     id: 'reel-5',
     couple: 'Tanvi & Harsh',
     caption: 'Subtle promises & intimate vows under the twilight 🌙',
-    views: '19.4K',
-    videoSrc: '/reels/reel-5.mp4',
+    location: 'Amaravati, Maharashtra, India',
+    likes: '19.4K',
+    comments: '188',
+    shares: '940',
+    videoSrc: '/src/assets/reels/Reel5.mp4',
     poster: '/reels/poster-5.jpg',
-    instagramUrl: 'https://www.instagram.com/reels/',
+    instagramUrl: 'https://www.instagram.com/reel/DdoT_6GsGir/',
+    audio: '_gokulphotography • Original audio'
   },
 ];
 ---
@@ -169,125 +189,205 @@ const studioReels = [
   <!-- ===================================================================== -->
   <!-- Auto-Playing Instagram Reels Section (Horizontal Scrollable Cards)  -->
   <!-- ===================================================================== -->
-  <section class="relative py-16 sm:py-24 bg-neutral-950 border-t border-neutral-900/80 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 mb-8 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div class="space-y-3">
-        <div class="flex items-center gap-2.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-          <span class="text-[10px] tracking-[0.35em] uppercase text-neutral-400 font-light">Reels & Moments</span>
-        </div>
-        <h3 class="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-white tracking-wide">
-          Captured In Motion <span class="italic font-normal text-amber-100/90">& Live Energy</span>
-        </h3>
-        <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-lg">
-          Unscripted glimpses, intimate vows, and royal celebrations straight from our studio lens.
-        </p>
+ <section class="relative py-16 sm:py-24 bg-neutral-950 border-t border-neutral-900/80 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 mb-8 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div class="space-y-3">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        <span class="text-[10px] tracking-[0.35em] uppercase text-neutral-400 font-light">Reels & Moments</span>
       </div>
-
-      <!-- Controls: Carousel arrows & Instagram follow link -->
-      <div class="flex items-center gap-4">
-        <a
-          href="https://www.instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-neutral-300 hover:text-white border-b border-neutral-700 hover:border-white pb-1 transition-colors"
-        >
-          <span>Follow @gokulphotography</span>
-          <span>↗</span>
-        </a>
-        <div class="hidden sm:flex items-center gap-2">
-          <button
-            id="reelsPrevBtn"
-            aria-label="Scroll reels left"
-            class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
-          >
-            &#8592;
-          </button>
-          <button
-            id="reelsNextBtn"
-            aria-label="Scroll reels right"
-            class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
-          >
-            &#8594;
-          </button>
-        </div>
-      </div>
+      <h3 class="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-white tracking-wide">
+        Captured In Motion <span class="italic font-normal text-amber-100/90">& Live Energy</span>
+      </h3>
+      <p class="text-xs sm:text-sm text-neutral-400 font-light max-w-lg">
+        Unscripted glimpses, intimate vows, and royal celebrations straight from our studio lens.
+      </p>
     </div>
 
-    <!-- Reels Horizontal Scroll Track -->
-    <div
-      id="reelsTrack"
-      class="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-8 max-w-7xl mx-auto pb-4 cursor-grab active:cursor-grabbing select-none"
-      style="scroll-snap-type: x mandatory;"
-    >
-      {studioReels.map((reel) => (
-        <div
-          class="reel-card group relative flex-none w-[260px] sm:w-[290px] aspect-[9/16] rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800/80 shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
-          style="scroll-snap-align: start;"
+    <!-- Controls: Carousel arrows & Instagram follow link -->
+    <div class="flex items-center gap-4">
+      <a
+        href="https://www.instagram.com/_gokulphotography"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-neutral-300 hover:text-white border-b border-neutral-700 hover:border-white pb-1 transition-colors"
+      >
+        <span>Follow @_gokulphotography</span>
+        <span>↗</span>
+      </a>
+      <div class="hidden sm:flex items-center gap-2">
+        <button
+          id="reelsPrevBtn"
+          aria-label="Scroll reels left"
+          class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
         >
-          <!-- Video Element (Autoplays silently when visible) -->
-          <video
-            class="reel-video w-full h-full object-cover transition-opacity duration-500"
-            loop
-            muted
-            playsinline
-            preload="metadata"
-            poster={reel.poster}
-          >
-            <source src={reel.videoSrc} type="video/mp4" />
-          </video>
+          &#8592;
+        </button>
+        <button
+          id="reelsNextBtn"
+          aria-label="Scroll reels right"
+          class="w-9 h-9 rounded-full border border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:text-white hover:border-neutral-500 hover:bg-neutral-800 flex items-center justify-center transition-all cursor-pointer"
+        >
+          &#8594;
+        </button>
+      </div>
+    </div>
+  </div>
 
-          <!-- Top Gradient & Badges (Reel Tag & Mute Control) -->
-          <div class="absolute inset-x-0 top-0 p-3 sm:p-4 bg-gradient-to-b from-black/80 via-black/30 to-transparent z-20 flex items-center justify-between pointer-events-none">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] tracking-widest uppercase text-white font-mono">
-              <svg class="w-3 h-3 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              <span>{reel.views}</span>
-            </span>
+  <!-- Reels Horizontal Scroll Track -->
+  <div
+    id="reelsTrack"
+    class="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-8 max-w-7xl mx-auto pb-6 cursor-grab active:cursor-grabbing select-none"
+    style="scroll-snap-type: x mandatory;"
+  >
+    {studioReels.map((reel) => (
+      <div
+        class="reel-card group relative flex-none w-[280px] sm:w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-black border border-neutral-800/80 shadow-2xl transition-transform duration-500 hover:scale-[1.01]"
+        style="scroll-snap-align: start;"
+      >
+        <!-- Video Layer -->
+        <video
+          class="reel-video w-full h-full object-cover transition-opacity duration-500"
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster={reel.poster}
+        >
+          <source src={reel.videoSrc} type="video/mp4" />
+        </video>
 
-            <button
-              type="button"
-              class="mute-toggle-btn pointer-events-auto p-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white/80 hover:text-white hover:bg-black/90 transition-all cursor-pointer"
-              title="Mute / Unmute"
-            >
-              <svg class="w-3.5 h-3.5 mute-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Bottom Gradient Scrim & Content Info -->
-          <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black via-black/65 to-transparent z-20 flex flex-col justify-end space-y-2 pointer-events-none">
-            <h4 class="text-sm font-serif text-white tracking-wide font-normal group-hover:text-amber-100 transition-colors">
-              {reel.couple}
-            </h4>
-            <p class="text-[11px] text-neutral-300 font-light line-clamp-2 leading-relaxed">
-              {reel.caption}
-            </p>
-
-            <a
-              href={reel.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="pointer-events-auto inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-amber-200/90 hover:text-amber-100 pt-1 transition-colors"
-            >
-              <span>Watch on Instagram</span>
-              <span>↗</span>
-            </a>
-          </div>
-
-          <!-- Subtle Play pulse icon on center -->
-          <div class="play-state-indicator absolute inset-0 m-auto w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-30">
-            <svg class="w-5 h-5 text-white fill-current ml-0.5" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
+        <!-- Instagram Top Bar: "Reels" Header & Camera -->
+        <div class="absolute inset-x-0 top-0 pt-4 px-4 pb-8 bg-gradient-to-b from-black/80 via-black/30 to-transparent z-20 flex items-center justify-between text-white pointer-events-none">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-sm tracking-wide drop-shadow">Reels</span>
+            <svg class="w-3.5 h-3.5 fill-current opacity-80" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </div>
+
+          <!-- Mute / Unmute Toggle Button -->
+          <button
+            type="button"
+            class="mute-toggle-btn pointer-events-auto p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white hover:bg-black/60 transition-all"
+            title="Mute / Unmute"
+          >
+            <svg class="w-4 h-4 mute-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          </button>
         </div>
-      ))}
-    </div>
-  </section>
+
+        <!-- Instagram Right Sidebar: Interaction Icons -->
+        <div class="absolute right-3 bottom-14 z-20 flex flex-col items-center space-y-4 pointer-events-auto">
+          <!-- Heart / Like -->
+          <button class="flex flex-col items-center group/btn cursor-pointer">
+            <div class="p-2 text-white hover:text-rose-500 transition-colors drop-shadow">
+              <svg class="w-6 h-6 stroke-white fill-transparent stroke-[1.8] group-hover/btn:fill-rose-500 group-hover/btn:stroke-rose-500 transition-colors" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
+            <span class="text-[10px] font-medium text-white drop-shadow -mt-1">{reel.likes}</span>
+          </button>
+
+          <!-- Comment -->
+          <button class="flex flex-col items-center group/btn cursor-pointer">
+            <div class="p-2 text-white hover:text-amber-100 transition-colors drop-shadow">
+              <svg class="w-6 h-6 stroke-white fill-transparent stroke-[1.8]" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <span class="text-[10px] font-medium text-white drop-shadow -mt-1">{reel.comments}</span>
+          </button>
+
+          <!-- Share / Direct Message Paper Airplane -->
+          <button class="flex flex-col items-center group/btn cursor-pointer">
+            <div class="p-2 text-white hover:text-amber-100 transition-colors drop-shadow">
+              <svg class="w-6 h-6 stroke-white fill-transparent stroke-[1.8] -rotate-12" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </div>
+            <span class="text-[10px] font-medium text-white drop-shadow -mt-1">{reel.shares}</span>
+          </button>
+
+          <!-- 3-Dots More -->
+          <button class="p-2 text-white/90 hover:text-white drop-shadow cursor-pointer">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <circle cx="12" cy="5" r="1.75" />
+              <circle cx="12" cy="12" r="1.75" />
+              <circle cx="12" cy="19" r="1.75" />
+            </svg>
+          </button>
+
+          <!-- Rotating Audio Disc Thumbnail -->
+          <div class="w-7 h-7 rounded-md p-0.5 border-2 border-white/80 overflow-hidden bg-black/60 shadow-lg animate-spin" style="animation-duration: 4s;">
+            <div class="w-full h-full rounded-sm bg-gradient-to-tr from-amber-400 to-rose-500"></div>
+          </div>
+        </div>
+
+        <!-- Instagram Bottom Content Area -->
+        <div class="absolute inset-x-0 bottom-0 pr-16 pl-3 pb-3 pt-12 bg-gradient-to-t from-black via-black/75 to-transparent z-10 flex flex-col justify-end space-y-2 pointer-events-none text-white">
+          <!-- User Profile & Follow Tag -->
+          <div class="flex items-center gap-2 pointer-events-auto">
+            <div class="p-[1.5px] rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600">
+              <div class="w-6 h-6 rounded-full bg-black flex items-center justify-center font-bold text-[9px] uppercase border border-black">
+                G
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-xs font-semibold tracking-wide drop-shadow">_gokulphotography</span>
+                <span class="text-[10px] text-white/80 font-normal">and 4 others</span>
+                <span class="text-white/60 text-xs">•</span>
+                <span class="text-[11px] font-semibold text-white/90 border border-white/30 rounded px-1.5 py-0.2 hover:bg-white/20 transition-colors cursor-pointer">Follow</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Geolocation Tag: Amravati, Maharashtra, India -->
+          <div class="flex items-center gap-1 text-[10px] text-neutral-300 drop-shadow pointer-events-auto">
+            <svg class="w-3 h-3 text-rose-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+            </svg>
+            <span class="truncate hover:underline cursor-pointer">{reel.location}</span>
+          </div>
+
+          <!-- Reel Dynamic Caption -->
+          <p class="text-[11px] text-white/90 font-light leading-snug line-clamp-2 drop-shadow">
+            {reel.caption}
+          </p>
+
+          <!-- Social Proof "Liked by akash_tikhile_official and others" -->
+          <div class="flex items-center gap-1.5 pt-0.5 pointer-events-auto">
+            <div class="flex -space-x-1.5 overflow-hidden">
+              <span class="inline-block w-3.5 h-3.5 rounded-full ring-1 ring-black bg-neutral-300"></span>
+              <span class="inline-block w-3.5 h-3.5 rounded-full ring-1 ring-black bg-neutral-400"></span>
+            </div>
+            <p class="text-[9.5px] text-neutral-300 font-light truncate">
+              Liked by <strong class="font-semibold text-white">akash_tikhile_official</strong> and <span class="hover:underline cursor-pointer">others</span>
+            </p>
+          </div>
+
+          <!-- Audio Wave Marquee -->
+          <div class="flex items-center gap-1.5 text-[9.5px] text-neutral-300 drop-shadow truncate pt-0.5">
+            <svg class="w-2.5 h-2.5 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+            </svg>
+            <span class="truncate">{reel.audio}</span>
+          </div>
+        </div>
+
+        <!-- Central Play Pause Indicator Overlay -->
+        <div class="play-state-indicator absolute inset-0 m-auto w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-30">
+          <svg class="w-5 h-5 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
   <!-- Category Showcase: Telling Your Story Through Beautiful Imagery -->
   <section class="relative py-28 sm:py-36 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto overflow-hidden">
