@@ -1,6 +1,6 @@
 // src/components/ReelsCoverflow.tsx
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { motion, type PanInfo } from "motion/react";
+import { motion } from "motion/react";
 
 export interface ReelItem {
   videoSrc: string;
@@ -18,23 +18,58 @@ interface ReelsCoverflowProps {
 }
 
 export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
-  const [activeIndex, setActiveIndex] = useState(
+  const [activeIndex, setActiveIndex] = useState(() =>
     Math.floor(studioReels.length / 2)
   );
   const [isMuted, setIsMuted] = useState(true);
-  const [viewportWidth, setViewportWidth] = useState(1024);
+  const [isInView, setIsInView] = useState(false);
+  const [deviceType, setDeviceType] = useState<"mobile" | "tablet" | "desktop">(
+    "desktop"
+  );
 
+  const sectionRef = useRef<HTMLElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const isDraggingRef = useRef(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
-  // Track viewport width so 3D coverflow spacing adapts to Mobile, Tablet, and Desktop
+  // 1. Use matchMedia instead of window.resize so mobile URL bar hiding doesn't trigger re-renders on scroll
   useEffect(() => {
-    const updateWidth = () => setViewportWidth(window.innerWidth);
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
+    const checkDevice = () => {
+      const w = window.innerWidth;
+      if (w < 640) setDeviceType("mobile");
+      else if (w < 1024) setDeviceType("tablet");
+      else setDeviceType("desktop");
+    };
+
+    checkDevice();
+    let timeoutId: ReturnType<typeof setTimeout>;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkDevice, 150);
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // 2. Only play the active video when the user has actually scrolled to this section
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   const handlePrev = useCallback(() => {
@@ -45,68 +80,49 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
     setActiveIndex((prev) => (prev < studioReels.length - 1 ? prev + 1 : 0));
   }, [studioReels.length]);
 
-  // Auto-play active center card, pause side cards
+  // 3. Strictly control playback: play ONLY activeIndex (when in view), pause all others
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
       if (!video) return;
-      if (index === activeIndex) {
-        video.play().catch(() => {});
+
+      if (index === activeIndex && isInView) {
+        video.muted = isMuted;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Auto-play fallback: ensure muted and retry
+            video.muted = true;
+            video.play().catch(() => {});
+          });
+        }
       } else {
-        video.pause();
-        video.currentTime = 0;
+        if (!video.paused) {
+          video.pause();
+        }
       }
     });
-  }, [activeIndex]);
+  }, [activeIndex, isInView, isMuted]);
 
   // Keyboard navigation support
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isInView) return;
       if (e.key === "ArrowLeft") handlePrev();
       if (e.key === "ArrowRight") handleNext();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handlePrev, handleNext]);
+  }, [handlePrev, handleNext, isInView]);
 
   // Responsive 3D Coverflow Math
-  const isMobile = viewportWidth < 640;
-  const isTablet = viewportWidth >= 640 && viewportWidth < 1024;
+  const isMobile = deviceType === "mobile";
+  const isTablet = deviceType === "tablet";
 
-  const baseSpacing = isMobile ? 115 : isTablet ? 165 : 215;
-  const zDepthStep = isMobile ? 95 : 130;
-  const baseTilt = isMobile ? 32 : 28;
+  const baseSpacing = isMobile ? 110 : isTablet ? 165 : 215;
+  const zDepthStep = isMobile ? 80 : 130;
+  const baseTilt = isMobile ? 26 : 28;
 
-  // Unified Pan / Swipe handler for Desktop Mouse Drag & Mobile Touch
-  const handlePanStart = () => {
-    isDraggingRef.current = true;
-  };
-
-  const handlePanEnd = (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
-  ) => {
-    const swipeThreshold = isMobile ? 30 : 50;
-    const velocityThreshold = 250;
-
-    if (
-      info.offset.x < -swipeThreshold ||
-      info.velocity.x < -velocityThreshold
-    ) {
-      handleNext();
-    } else if (
-      info.offset.x > swipeThreshold ||
-      info.velocity.x > velocityThreshold
-    ) {
-      handlePrev();
-    }
-
-    // Small delay before re-enabling click so a swipe doesn't trigger a card tap
-    setTimeout(() => {
-      isDraggingRef.current = false;
-    }, 80);
-  };
-
-  // Fallback native touch handlers for mobile browsers (iOS Safari / Android Chrome)
+  // 4. Lightweight Unified Pointer/Touch Swipe (No Framer Motion onPan overhead during scroll)
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -117,8 +133,8 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
     const deltaX = e.changedTouches[0].clientX - touchStartX.current;
     const deltaY = e.changedTouches[0].clientY - touchStartY.current;
 
-    // Only trigger if horizontal swipe is dominant over vertical scroll
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 35) {
+    // Only trigger if horizontal swipe is clearly dominant over vertical page scroll
+    if (Math.abs(deltaX) > Math.abs(deltaY) * 1.2 && Math.abs(deltaX) > 35) {
       isDraggingRef.current = true;
       if (deltaX < 0) handleNext();
       else handlePrev();
@@ -132,8 +148,30 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
     touchStartY.current = null;
   };
 
+  // Desktop Mouse Drag Support
+  const mouseStartX = useRef<number | null>(null);
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+  };
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (mouseStartX.current === null) return;
+    const deltaX = e.clientX - mouseStartX.current;
+    if (Math.abs(deltaX) > 45) {
+      isDraggingRef.current = true;
+      if (deltaX < 0) handleNext();
+      else handlePrev();
+      setTimeout(() => {
+        isDraggingRef.current = false;
+      }, 80);
+    }
+    mouseStartX.current = null;
+  };
+
   return (
-    <section className="relative py-12 sm:py-24 bg-neutral-950 border-t border-neutral-900/80 overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative py-12 sm:py-24 bg-neutral-950 border-t border-neutral-900/80 overflow-hidden"
+    >
       {/* Header & Controls */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 mb-6 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-3">
@@ -188,34 +226,37 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
       </div>
 
       {/* 3D Coverflow Stage */}
-      <motion.div
-        onPanStart={handlePanStart}
-        onPanEnd={handlePanEnd}
+      <div
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
         className="relative h-[460px] xs:h-[500px] sm:h-[600px] max-w-7xl mx-auto flex items-center justify-center select-none overflow-visible touch-pan-y"
-        style={{ perspective: "1200px" }}
+        style={{ perspective: isMobile ? "900px" : "1200px" }}
       >
         {studioReels.map((reel, index) => {
           const offset = index - activeIndex;
           const absOffset = Math.abs(offset);
           const isCenter = offset === 0;
 
+          // Only render video source for active card & immediate neighbors to save mobile GPU/RAM
+          const isNear = absOffset <= 1;
+          const isVisible = absOffset <= 2;
+
           // Responsive Coverflow 3D Calculations
           const xOffset = offset * baseSpacing;
-          const scale = isCenter ? 1 : Math.max(0.72, 1 - absOffset * 0.13);
+          const scale = isCenter ? 1 : Math.max(0.74, 1 - absOffset * 0.13);
           const rotateY = isCenter
             ? 0
             : offset > 0
-            ? -Math.min(48, baseTilt + absOffset * 6)
-            : Math.min(48, baseTilt + absOffset * 6);
+            ? -Math.min(45, baseTilt + absOffset * 6)
+            : Math.min(45, baseTilt + absOffset * 6);
           const zOffset = isCenter ? 0 : -absOffset * zDepthStep;
-          const opacity =
-            absOffset > 2
-              ? 0
-              : isCenter
-              ? 1
-              : Math.max(0.3, 1 - absOffset * 0.32);
+          const opacity = !isVisible
+            ? 0
+            : isCenter
+            ? 1
+            : Math.max(0.35, 1 - absOffset * 0.32);
           const zIndex = studioReels.length - absOffset;
 
           return (
@@ -227,7 +268,9 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   setActiveIndex(index);
                 } else {
                   const v = videoRefs.current[index];
-                  if (v) v.paused ? v.play() : v.pause();
+                  if (v) {
+                    v.paused ? v.play().catch(() => {}) : v.pause();
+                  }
                 }
               }}
               initial={false}
@@ -239,46 +282,58 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                 opacity,
                 zIndex,
               }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 26,
-                mass: 0.9,
-              }}
+              transition={
+                isMobile
+                  ? { type: "tween", duration: 0.28, ease: "easeOut" }
+                  : {
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 26,
+                      mass: 0.9,
+                    }
+              }
               style={{
-                transformStyle: "preserve-3d",
-                pointerEvents: absOffset > 2 ? "none" : "auto",
+                willChange: isVisible ? "transform, opacity" : "auto",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+                pointerEvents: !isVisible ? "none" : "auto",
+                visibility: !isVisible ? "hidden" : "visible",
               }}
-              className={`reel-card group absolute w-[235px] xs:w-[260px] sm:w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-black border ${
+              className={`group absolute w-[235px] xs:w-[260px] sm:w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-neutral-900 border ${
                 isCenter
-                  ? "border-amber-200/30 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95)] cursor-grab active:cursor-grabbing"
-                  : "border-neutral-800/80 shadow-2xl cursor-pointer"
+                  ? "border-amber-200/30 shadow-2xl cursor-grab active:cursor-grabbing"
+                  : "border-neutral-800/80 shadow-lg cursor-pointer"
               }`}
             >
               {/* Darkening Overlay for Inactive Side Cards */}
               {!isCenter && (
-                <div className="absolute inset-0 bg-black/45 z-30 pointer-events-none transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-black/50 z-30 pointer-events-none transition-opacity duration-200" />
               )}
 
-              {/* Video Layer */}
+              {/* Video Layer - Removed "reel-video" class so external scripts don't force-play all videos */}
               <video
                 ref={(el) => {
                   videoRefs.current[index] = el;
                 }}
-                className="reel-video w-full h-full object-cover pointer-events-none"
+                src={isNear ? reel.videoSrc : undefined}
+                onPlay={(e) => {
+                  // Guard: If any external script tries to play an inactive card, immediately pause it
+                  if (index !== activeIndex) {
+                    e.currentTarget.pause();
+                  }
+                }}
+                className="w-full h-full object-cover pointer-events-none"
                 loop
                 muted={isMuted}
                 playsInline
-                preload="metadata"
+                preload={isCenter ? "auto" : "metadata"}
                 poster={reel.poster}
-              >
-                <source src={reel.videoSrc} type="video/mp4" />
-              </video>
+              />
 
               {/* Instagram Top Bar: "Reels" Header & Mute Toggle */}
               <div className="absolute inset-x-0 top-0 pt-3.5 sm:pt-4 px-3.5 sm:px-4 pb-8 bg-gradient-to-b from-black/80 via-black/30 to-transparent z-20 flex items-center justify-between text-white pointer-events-none">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="font-semibold text-xs sm:text-sm tracking-wide drop-shadow">
+                  <span className="font-semibold text-xs sm:text-sm tracking-wide">
                     Reels
                   </span>
                   <svg
@@ -293,19 +348,19 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </svg>
                 </div>
 
-                {/* Mute / Unmute Toggle Button */}
+                {/* Mute / Unmute Toggle Button (Removed heavy backdrop-blur on mobile) */}
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsMuted(!isMuted);
+                    setIsMuted((prev) => !prev);
                   }}
-                  className="mute-toggle-btn pointer-events-auto p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white hover:bg-black/60 transition-all"
+                  className="pointer-events-auto p-1.5 rounded-full bg-black/65 border border-white/15 text-white hover:bg-black/80 transition-colors"
                   title="Mute / Unmute"
                 >
                   {isMuted ? (
                     <svg
-                      className="w-4 h-4 mute-icon"
+                      className="w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
@@ -347,7 +402,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   onClick={(e) => e.stopPropagation()}
                   className="flex flex-col items-center group/btn cursor-pointer"
                 >
-                  <div className="p-1.5 sm:p-2 text-white hover:text-rose-500 transition-colors drop-shadow">
+                  <div className="p-1.5 sm:p-2 text-white hover:text-rose-500 transition-colors">
                     <svg
                       className="w-5 h-5 sm:w-6 sm:h-6 stroke-white fill-transparent stroke-[1.8] group-hover/btn:fill-rose-500 group-hover/btn:stroke-rose-500 transition-colors"
                       viewBox="0 0 24 24"
@@ -359,7 +414,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                       />
                     </svg>
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-medium text-white drop-shadow -mt-1">
+                  <span className="text-[9px] sm:text-[10px] font-medium text-white -mt-1">
                     {reel.likes}
                   </span>
                 </button>
@@ -369,7 +424,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   onClick={(e) => e.stopPropagation()}
                   className="flex flex-col items-center group/btn cursor-pointer"
                 >
-                  <div className="p-1.5 sm:p-2 text-white hover:text-amber-100 transition-colors drop-shadow">
+                  <div className="p-1.5 sm:p-2 text-white hover:text-amber-100 transition-colors">
                     <svg
                       className="w-5 h-5 sm:w-6 sm:h-6 stroke-white fill-transparent stroke-[1.8]"
                       viewBox="0 0 24 24"
@@ -381,7 +436,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                       />
                     </svg>
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-medium text-white drop-shadow -mt-1">
+                  <span className="text-[9px] sm:text-[10px] font-medium text-white -mt-1">
                     {reel.comments}
                   </span>
                 </button>
@@ -391,7 +446,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   onClick={(e) => e.stopPropagation()}
                   className="flex flex-col items-center group/btn cursor-pointer"
                 >
-                  <div className="p-1.5 sm:p-2 text-white hover:text-amber-100 transition-colors drop-shadow">
+                  <div className="p-1.5 sm:p-2 text-white hover:text-amber-100 transition-colors">
                     <svg
                       className="w-5 h-5 sm:w-6 sm:h-6 stroke-white fill-transparent stroke-[1.8] -rotate-12"
                       viewBox="0 0 24 24"
@@ -403,7 +458,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                       />
                     </svg>
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-medium text-white drop-shadow -mt-1">
+                  <span className="text-[9px] sm:text-[10px] font-medium text-white -mt-1">
                     {reel.shares}
                   </span>
                 </button>
@@ -411,17 +466,23 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                 <button
                   type="button"
                   onClick={(e) => e.stopPropagation()}
-                  className="p-1.5 sm:p-2 text-white/90 hover:text-white drop-shadow cursor-pointer"
+                  className="p-1.5 sm:p-2 text-white/90 hover:text-white cursor-pointer"
                 >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 24 24">
+                  <svg
+                    className="w-4 h-4 sm:w-5 sm:h-5 fill-current"
+                    viewBox="0 0 24 24"
+                  >
                     <circle cx="12" cy="5" r="1.75" />
                     <circle cx="12" cy="12" r="1.75" />
                     <circle cx="12" cy="19" r="1.75" />
                   </svg>
                 </button>
 
+                {/* Spin only on the active card so inactive cards don't repaint continuously */}
                 <div
-                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-md p-0.5 border-2 border-white/80 overflow-hidden bg-black/60 shadow-lg animate-spin"
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-md p-0.5 border-2 border-white/80 overflow-hidden bg-black/60 ${
+                    isCenter && isInView ? "animate-spin" : ""
+                  }`}
                   style={{ animationDuration: "4s" }}
                 >
                   <div className="w-full h-full rounded-sm bg-gradient-to-tr from-amber-400 to-rose-500"></div>
@@ -438,13 +499,15 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </div>
                   <div className="flex flex-col min-w-0">
                     <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-                      <span className="text-[11px] sm:text-xs font-semibold tracking-wide drop-shadow truncate">
+                      <span className="text-[11px] sm:text-xs font-semibold tracking-wide truncate">
                         _gokulphotography
                       </span>
                       <span className="text-[9px] sm:text-[10px] text-white/80 font-normal">
                         and 4 others
                       </span>
-                      <span className="text-white/60 text-xs hidden sm:inline">•</span>
+                      <span className="text-white/60 text-xs hidden sm:inline">
+                        •
+                      </span>
                       <span className="text-[10px] sm:text-[11px] font-semibold text-white/90 border border-white/30 rounded px-1.5 py-0.2 hover:bg-white/20 transition-colors cursor-pointer">
                         Follow
                       </span>
@@ -452,7 +515,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 text-[9.5px] sm:text-[10px] text-neutral-300 drop-shadow pointer-events-auto">
+                <div className="flex items-center gap-1 text-[9.5px] sm:text-[10px] text-neutral-300 pointer-events-auto">
                   <svg
                     className="w-3 h-3 text-rose-400 shrink-0"
                     fill="currentColor"
@@ -469,7 +532,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </span>
                 </div>
 
-                <p className="text-[10px] sm:text-[11px] text-white/90 font-light leading-snug line-clamp-2 drop-shadow">
+                <p className="text-[10px] sm:text-[11px] text-white/90 font-light leading-snug line-clamp-2">
                   {reel.caption}
                 </p>
 
@@ -490,7 +553,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[8.5px] sm:text-[9.5px] text-neutral-300 drop-shadow truncate pt-0.5">
+                <div className="flex items-center gap-1.5 text-[8.5px] sm:text-[9.5px] text-neutral-300 truncate pt-0.5">
                   <svg
                     className="w-2.5 h-2.5 fill-current shrink-0"
                     viewBox="0 0 24 24"
@@ -503,7 +566,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
             </motion.div>
           );
         })}
-      </motion.div>
+      </div>
 
       {/* Pagination Dots */}
       <div className="flex justify-center items-center gap-2 mt-4 sm:mt-6">
