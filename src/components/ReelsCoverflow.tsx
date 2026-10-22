@@ -1,21 +1,30 @@
 // src/components/ReelsCoverflow.tsx
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "motion/react";
+import type { ImageMetadata } from "astro";
 
 export interface ReelItem {
+  id?: string;
+  couple?: string;
   videoSrc: string;
-  poster?: string;
+  poster?: string | ImageMetadata;
   likes: string | number;
   comments: string | number;
   shares: string | number;
   location: string;
   caption: string;
   audio: string;
+  instagramUrl?: string;
 }
 
 interface ReelsCoverflowProps {
   studioReels: ReelItem[];
 }
+
+const getPosterUrl = (poster?: string | ImageMetadata): string | undefined => {
+  if (!poster) return undefined;
+  return typeof poster === "string" ? poster : poster.src;
+};
 
 export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
   const [activeIndex, setActiveIndex] = useState(() =>
@@ -33,7 +42,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
-  // 1. Use matchMedia instead of window.resize so mobile URL bar hiding doesn't trigger re-renders on scroll
+  // 1. Use matchMedia/resize check with debounce
   useEffect(() => {
     const checkDevice = () => {
       const w = window.innerWidth;
@@ -56,7 +65,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
     };
   }, []);
 
-  // 2. Only play the active video when the user has actually scrolled to this section
+  // 2. Play active video only when section is visible
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -90,7 +99,6 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {
-            // Auto-play fallback: ensure muted and retry
             video.muted = true;
             video.play().catch(() => {});
           });
@@ -122,7 +130,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
   const zDepthStep = isMobile ? 80 : 130;
   const baseTilt = isMobile ? 26 : 28;
 
-  // 4. Lightweight Unified Pointer/Touch Swipe (No Framer Motion onPan overhead during scroll)
+  // Lightweight Unified Pointer/Touch Swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -133,7 +141,6 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
     const deltaX = e.changedTouches[0].clientX - touchStartX.current;
     const deltaY = e.changedTouches[0].clientY - touchStartY.current;
 
-    // Only trigger if horizontal swipe is clearly dominant over vertical page scroll
     if (Math.abs(deltaX) > Math.abs(deltaY) * 1.2 && Math.abs(deltaX) > 35) {
       isDraggingRef.current = true;
       if (deltaX < 0) handleNext();
@@ -261,7 +268,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
 
           return (
             <motion.div
-              key={index}
+              key={reel.id ?? index}
               onClick={() => {
                 if (isDraggingRef.current) return;
                 if (!isCenter) {
@@ -310,14 +317,13 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                 <div className="absolute inset-0 bg-black/50 z-30 pointer-events-none transition-opacity duration-200" />
               )}
 
-              {/* Video Layer - Removed "reel-video" class so external scripts don't force-play all videos */}
+              {/* Video Layer */}
               <video
                 ref={(el) => {
                   videoRefs.current[index] = el;
                 }}
                 src={isNear ? reel.videoSrc : undefined}
                 onPlay={(e) => {
-                  // Guard: If any external script tries to play an inactive card, immediately pause it
                   if (index !== activeIndex) {
                     e.currentTarget.pause();
                   }
@@ -327,7 +333,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                 muted={isMuted}
                 playsInline
                 preload={isCenter ? "auto" : "metadata"}
-                poster={reel.poster}
+                poster={getPosterUrl(reel.poster)}
               />
 
               {/* Instagram Top Bar: "Reels" Header & Mute Toggle */}
@@ -348,7 +354,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </svg>
                 </div>
 
-                {/* Mute / Unmute Toggle Button (Removed heavy backdrop-blur on mobile) */}
+                {/* Mute / Unmute Toggle Button */}
                 <button
                   type="button"
                   onClick={(e) => {
@@ -478,7 +484,7 @@ export default function ReelsCoverflow({ studioReels }: ReelsCoverflowProps) {
                   </svg>
                 </button>
 
-                {/* Spin only on the active card so inactive cards don't repaint continuously */}
+                {/* Spin only on the active card */}
                 <div
                   className={`w-6 h-6 sm:w-7 sm:h-7 rounded-md p-0.5 border-2 border-white/80 overflow-hidden bg-black/60 ${
                     isCenter && isInView ? "animate-spin" : ""
